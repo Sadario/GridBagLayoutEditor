@@ -1,7 +1,8 @@
 # Create your working copy
 
 Each group will create one fork of the project.
-![Skjermbilde 2016-06-24 kl. 09.15.21.png](https://bitbucket.org/repo/dLje5x/images/315685599-Skjermbilde%202016-06-24%20kl.%2009.15.21.png)
+![Skjermbilde 2017-08-24 kl. 09.55.57.png](https://bitbucket.org/repo/647Ago9/images/3930476171-Skjermbilde%202017-08-24%20kl.%2009.55.57.png)
+
 
 Make sure to check off the Access level so that this will be "This is a private repository" and "Permissions" to "Inherit repository user/group permissions". This will ensure that no one else gets access to your work put I will still be able to access it to grade it later on.
 
