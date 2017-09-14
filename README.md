@@ -10,7 +10,7 @@ After the repository is forked the one member on the group that forked the repos
 
 # Description of the project
 
-[The project description is in the Wiki of the original repository](https://bitbucket.org/okolloen/imt3281-project1-2016/wiki/Home) (this will not get copied to your fork and you will need to access it trough the original repo.)
+[The project description is in the Wiki of the original repository](https://bitbucket.org/okolloen/imt3281-project1-h2017/wiki/Home) (this will not get copied to your fork and you will need to access it trough the original repo.)
 
 
 # Working on the project
