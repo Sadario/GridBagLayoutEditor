@@ -20,11 +20,22 @@ public class BaseComponent implements Serializable {
 	 * 
 	 */
 	public BaseComponent() {
-		
+		variableName = "component" + nextComponentID;
+		text = "";
+		row = col = rows = cols = 1;
+		anchor = 10;
 		nextComponentID++;
+		
 	}
 	public BaseComponent(BaseComponent component) {
-		// TODO Auto-generated constructor stub
+		variableName = component.variableName;
+		text = component.text;
+		row = component.row;
+		col = component.col;
+		rows = component.rows;
+		cols = component.cols;
+		anchor = component.anchor;
+		fill = component.fill;
 	}
 	/**
 	 * temp
@@ -58,7 +69,7 @@ public class BaseComponent implements Serializable {
 	 * @param name
 	 */
 	public void setVariableName(String name) {
-	  // temp	
+	  this.variableName = name;	
 	}
 	
 	/**
@@ -76,7 +87,7 @@ public class BaseComponent implements Serializable {
 	 * @param the String text of the component
 	 */
 	public void setText(String text) {
-		
+		this.text = text;
 	}
 	
 	/**
@@ -94,7 +105,7 @@ public class BaseComponent implements Serializable {
 	 * @param row
 	 */
 	public void setRow(int row) {
-		
+		this.row = row;
 	}
 	
 	/**
@@ -113,7 +124,7 @@ public class BaseComponent implements Serializable {
 	 * @param rows
 	 */
 	public void setRows(int rows) {
-		
+		this.rows = rows;
 	}
 	
 	/**
@@ -131,7 +142,7 @@ public class BaseComponent implements Serializable {
 	 * @param col
 	 */
 	public void setCol(int col) {
-		
+		this.col = col;
 	}
 	
 	/**
@@ -150,7 +161,7 @@ public class BaseComponent implements Serializable {
 	 * @param cols
 	 */
 	public void setCols(int cols) {
-		
+		this.cols = cols;
 	}
 	
 	/**
@@ -168,7 +179,7 @@ public class BaseComponent implements Serializable {
 	 * @param anchor
 	 */
 	public void setAnchor(int anchor) {
-		
+		this.anchor = anchor;
 	}
 	
 	/**
@@ -186,7 +197,7 @@ public class BaseComponent implements Serializable {
 	 * @param fill
 	 */
 	public void setFill(int fill) {
-		
+		this.fill = fill;
 	}
 	
 	/**
