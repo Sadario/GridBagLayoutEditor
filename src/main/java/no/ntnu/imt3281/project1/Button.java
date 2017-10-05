@@ -17,7 +17,7 @@ public class Button extends BaseComponent {
 	}
 
 	public Button(BaseComponent component) {
-		// TODO Auto-generated constructor stub
+		super(component);
 	}
 
 }

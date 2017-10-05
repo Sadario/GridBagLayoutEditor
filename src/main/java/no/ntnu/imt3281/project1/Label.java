@@ -18,11 +18,11 @@ public class Label extends BaseComponent {
 	 * 		METHODS:
 	 */
 	public Label() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	public Label(BaseComponent component) {
-		// TODO Auto-generated constructor stub
+		super(component);
 	}
 
 }

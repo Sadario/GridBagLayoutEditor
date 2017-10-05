@@ -16,17 +16,22 @@ public class BaseComponent implements Serializable {
 	protected static int nextComponentID;   // tempKommentar: Benyttes av child-klassene (se testfilene)
 	
 	/**
-	 * temp
+	 * 
 	 * 
 	 */
 	public BaseComponent() {
 		variableName = "component" + nextComponentID;
 		text = "";
 		row = col = rows = cols = 1;
-		anchor = 10;
+		anchor = java.awt.GridBagConstraints.CENTER;
 		nextComponentID++;
-		
 	}
+	
+	/**
+	 * 
+	 * @param component			The component to copy
+	 */
+	
 	public BaseComponent(BaseComponent component) {
 		variableName = component.variableName;
 		text = component.text;
@@ -36,14 +41,28 @@ public class BaseComponent implements Serializable {
 		cols = component.cols;
 		anchor = component.anchor;
 		fill = component.fill;
+		nextComponentID++;
 	}
 	/**
-	 * temp
 	 * 
-	 * @return
+	 * 
+	 * @return	
 	 */
     public String getDefinition() {
-    	return "temp";
+    	String ret;
+    	
+    	if 		(this instanceof Label)
+    		ret = "\tJLabel " + this.variableName + " = new JLabel(\"" + this.text + "\");\n";
+    	else if (this instanceof Button)
+    		ret = "\tJButton " + this.variableName + " = new JButton(\"" + this.text + "\");\n";
+    	else if (this instanceof TextField)
+    		ret = "\tJTextField " + this.variableName + " = new JTextField(\"" + this.text + "\");\n";
+    	else if (this instanceof TextArea)
+    		ret = "\tJTextArea " + this.variableName + " = new JTextArea(\"" + this.text + "\");\n";
+    	else ret = null;
+    	
+    	
+    	return ret;
     }
     
     /**
