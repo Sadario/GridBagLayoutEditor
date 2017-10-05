@@ -1,4 +1,5 @@
 package no.ntnu.imt3281.project1;
+import java.awt.Component;
 import java.io.Serializable;
 
 public class BaseComponent implements Serializable {
@@ -21,6 +22,9 @@ public class BaseComponent implements Serializable {
 	public BaseComponent() {
 		
 		nextComponentID++;
+	}
+	public BaseComponent(BaseComponent component) {
+		// TODO Auto-generated constructor stub
 	}
 	/**
 	 * temp
@@ -190,7 +194,7 @@ public class BaseComponent implements Serializable {
 	 * 
 	 * @param temp
 	 */
-	public void getSpecialEditor(java.awt.Component temp) {
-	
+	public Component getSpecialEditor() {
+		return null;
 	}
 }
