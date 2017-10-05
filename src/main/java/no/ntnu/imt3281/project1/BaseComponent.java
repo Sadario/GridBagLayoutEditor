@@ -51,7 +51,11 @@ public class BaseComponent implements Serializable {
      * 
      */
 	public String getLayoutCode() {
-		return "temp";
+		return 	"\t\tgbc.gridx = " + getCol() + ";\n\t\tgbc.gridy = " + getRow() + ";\n" +
+				"\t\tgbc.gridwidth = " + getCols() + ";\n\t\tgbc.gridheight = " + getRows() + ";\n" +
+				"\t\tgbc.anchor = " + getAnchor() + ";\n\t\tgbc.fill = " + getFill() + ";\n" +
+				"\t\tlayout.setConstraints(" + getVariableName() + ", gbc);\n" +
+				"\t\tadd(" + getVariableName() + ");\n";
 	}
 	
 	/**
