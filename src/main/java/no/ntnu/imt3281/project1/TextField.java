@@ -1,11 +1,10 @@
-/**
- * 
- */
 package no.ntnu.imt3281.project1;
 
 /**
+ * TextField class represents a definable JTextField object
+ * to be used in the GridBagLayout editor.
  * 
- *
+ * @author Thomas Gundersen & Ola Nicolaisen
  */
 public class TextField extends BaseComponent {
 

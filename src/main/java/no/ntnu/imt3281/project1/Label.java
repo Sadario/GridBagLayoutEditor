@@ -4,8 +4,10 @@
 package no.ntnu.imt3281.project1;
 
 /**
+ * Label class represents a definable JLabel object
+ * to be used in the GridBagLayout editor.
  * 
- *
+ * @author Thomas Gundersen & Ola Nicolaisen
  */
 public class Label extends BaseComponent {
 

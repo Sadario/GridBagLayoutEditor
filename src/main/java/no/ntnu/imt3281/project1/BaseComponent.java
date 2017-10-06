@@ -3,6 +3,13 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.io.Serializable;
 
+/**
+ * BaseComponent class contains all the common properties
+ * of the different components.
+ * 
+ * @author Thomas Gundersen & Ola Nicolaisen
+ *
+ */
 public class BaseComponent implements Serializable {
 	
 	private static final long serialVersionUID = 1L;  

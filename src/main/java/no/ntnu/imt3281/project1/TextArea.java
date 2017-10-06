@@ -4,8 +4,10 @@
 package no.ntnu.imt3281.project1;
 
 /**
+ * TextArea class represents a definable JTextArea object
+ * to be used in the GridBagLayout editor.
  * 
- *
+ * @author Thomas Gundersen & Ola Nicolaisen
  */
 public class TextArea extends BaseComponent {
 	
