@@ -15,11 +15,20 @@ public class TextField extends BaseComponent {
 	private static final long serialVersionUID = 1L;
 	private int width;
 
-
+	/**
+	 * No argument constructor calls BaseComponent's constructor
+	 * 
+	 * @see BaseComponent#BaseComponent()
+	 */
 	public TextField() {
 		super();
 	}
 
+	/**
+	 * 
+	 * @see BaseComponent#BaseComponent(BaseComponent)
+	 * @param component to be sent to BaseComponent's constructor
+	 */
 	public TextField(BaseComponent component) {
 		super(component);
 	}
@@ -48,7 +57,7 @@ public class TextField extends BaseComponent {
 	 * @return returns a JTextField object definition as a string
 	 */
 	public String getDefinition() {
-		return "\tJTextField " + getVariableName() + " = new JTextField(\"" + getText() + "\");\n";
+		return "\tJTextField " + getVariableName() + " = new JTextField(\"" + getText() + "\", " + getWidth() + ");\n";
 	}
 	
 	/**

@@ -18,8 +18,9 @@ public class Button extends BaseComponent {
 		super();
 	}
 
-	
 	/**
+	 * 1-argument constructor takes Button object and 
+	 * sends it to the BaseComponent.
 	 * 
 	 * @see BaseComponent#BaseComponent(BaseComponent)
 	 * @param component to be sent to BaseComponent's constructor
