@@ -4,7 +4,8 @@ package no.ntnu.imt3281.project1;
  * Button class represents a definable JButton object
  * to be used in the GridBagLayout editor.
  * 
- * @author Thomas Gundersen & Ola Nicolaisen
+ * @author thomasgg
+ * @author sadario
  */
 public class Button extends BaseComponent {
 	private static final long serialVersionUID = 1L;

@@ -8,7 +8,8 @@ import javax.swing.JPanel;
  * TextField class represents a definable JTextField object
  * to be used in the GridBagLayout editor.
  * 
- * @author Thomas Gundersen & Ola Nicolaisen
+ * @author thomasgg
+ * @author sadario
  */
 public class TextField extends BaseComponent {
 	

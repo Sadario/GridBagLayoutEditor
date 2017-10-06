@@ -11,7 +11,8 @@ import javax.swing.table.AbstractTableModel;
 
 /**
  * 
- *
+ * @author thomasgg
+ * @author sadario
  */
 public class GBLEDataModel extends AbstractTableModel {
 

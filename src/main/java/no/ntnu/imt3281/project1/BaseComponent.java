@@ -7,8 +7,8 @@ import javax.swing.JPanel;
  * BaseComponent class contains all the common properties
  * of the different components.
  * 
- * @author Thomas Gundersen & Ola Nicolaisen
- *
+ * @author thomasgg
+ * @author sadario
  */
 public class BaseComponent implements Serializable {
 	
@@ -53,7 +53,6 @@ public class BaseComponent implements Serializable {
 		cols = component.cols;
 		anchor = component.anchor;
 		fill = component.fill;
-	//	nextComponentID++;
 	}
 	
 	/**
@@ -90,7 +89,7 @@ public class BaseComponent implements Serializable {
 	/**
 	 * Sets the variable name of the component.
 	 * 
-	 * @param variableName the variable name of the object.
+	 * @param name the variable name of the object.
 	 */
 	public void setVariableName(String name) {
 	  this.variableName = name;	
@@ -188,7 +187,7 @@ public class BaseComponent implements Serializable {
 	 * Sets the number of coloumns which the component occupies.
 	 * 
 	 * @see java.awt.GridBagConstraints
-	 * @param cols
+	 * @param cols number of columns which the component will occupy
 	 */
 	public void setCols(int cols) {
 		this.cols = cols;
