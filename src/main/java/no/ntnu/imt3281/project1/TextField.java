@@ -1,5 +1,6 @@
 package no.ntnu.imt3281.project1;
 
+import java.awt.Component;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
@@ -65,7 +66,7 @@ public class TextField extends BaseComponent {
 	 * TEMP - needs review/discussion
 	 * 
 	 */
-	public JPanel getSpecialEditor() {
+	public Component getSpecialEditor() {
 		return new JPanel(new GridLayout(2,2));
 	}
 

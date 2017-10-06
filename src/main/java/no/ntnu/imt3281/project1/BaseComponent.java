@@ -1,7 +1,7 @@
 package no.ntnu.imt3281.project1;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.io.Serializable;
-import javax.swing.JPanel;
 
 /**
  * BaseComponent class contains all the common properties
@@ -227,7 +227,7 @@ public class BaseComponent implements Serializable {
 	 * 
 	 * @return a JPanel of the specific component's special fields which can be edited
 	 */
-	public JPanel getSpecialEditor() {
+	public Component getSpecialEditor() {
 		return null;
 	}
 	
