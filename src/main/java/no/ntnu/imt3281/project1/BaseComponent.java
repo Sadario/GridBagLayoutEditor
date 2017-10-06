@@ -64,20 +64,7 @@ public class BaseComponent implements Serializable {
     public String getDefinition() {
     	return null;
     }
-    
-    /**
-     * Gets a String representation of the component's layout Java code.
-     * 
-     * @return String containing the layout code for the object
-     */
-	public String getLayoutCode() {
-		return 	"\t\tgbc.gridx = " + getCol() + ";\n\t\tgbc.gridy = " + getRow() + ";\n" +
-				"\t\tgbc.gridwidth = " + getCols() + ";\n\t\tgbc.gridheight = " + getRows() + ";\n" +
-				"\t\tgbc.anchor = " + getAnchor() + ";\n\t\tgbc.fill = " + getFill() + ";\n" +
-				"\t\tlayout.setConstraints(" + getVariableName() + ", gbc);\n" +
-				"\t\tadd(" + getVariableName() + ");\n";
-	}
-	
+    	
 	/**
 	 * Gets the variable name of the component.
 	 * 
@@ -243,5 +230,18 @@ public class BaseComponent implements Serializable {
 	 */
 	public JPanel getSpecialEditor() {
 		return null;
+	}
+	
+    /**
+     * Gets a String representation of the component's layout Java code.
+     * 
+     * @return String containing the layout code for the object
+     */
+	public String getLayoutCode() {
+		return 	"\t\tgbc.gridx = " + getCol() + ";\n\t\tgbc.gridy = " + getRow() + ";\n" +
+				"\t\tgbc.gridwidth = " + getCols() + ";\n\t\tgbc.gridheight = " + getRows() + ";\n" +
+				"\t\tgbc.anchor = " + getAnchor() + ";\n\t\tgbc.fill = " + getFill() + ";\n" +
+				"\t\tlayout.setConstraints(" + getVariableName() + ", gbc);\n" +
+				"\t\tadd(" + getVariableName() + ");\n";
 	}
 }
