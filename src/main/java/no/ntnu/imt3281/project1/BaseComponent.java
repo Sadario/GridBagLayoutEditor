@@ -1,10 +1,11 @@
 package no.ntnu.imt3281.project1;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
 import java.io.Serializable;
 
 public class BaseComponent implements Serializable {
 	
-	private static final long serialVersionUID = 1L;  // tempKommentar: 
+	private static final long serialVersionUID = 1L;  
 	private String variableName;
 	private String text;
 	private int row;
@@ -13,25 +14,29 @@ public class BaseComponent implements Serializable {
 	private int cols;
 	private int anchor;
 	private int fill;
-	protected static int nextComponentID;   // tempKommentar: Benyttes av child-klassene (se testfilene)
+	protected static int nextComponentID;  
 	
 	/**
-	 * 
+	 * The no-argument BaseComponent constructor creates 
+	 * a new component with an empty text field and default values 
+	 * for the number of rows and columns the component spans.
 	 * 
 	 */
 	public BaseComponent() {
 		variableName = "component" + nextComponentID;
 		text = "";
 		row = col = rows = cols = 1;
-		anchor = java.awt.GridBagConstraints.CENTER;
+		anchor = GridBagConstraints.CENTER;
 		nextComponentID++;
 	}
 	
 	/**
+	 * The 1-argument BaseComponent constructor takes
+	 * an existing component as parameter and copies
+	 * its attributes to a new component.
 	 * 
-	 * @param component			The component to copy
+	 * @param component object to copy
 	 */
-	
 	public BaseComponent(BaseComponent component) {
 		variableName = component.variableName;
 		text = component.text;
@@ -43,31 +48,20 @@ public class BaseComponent implements Serializable {
 		fill = component.fill;
 		nextComponentID++;
 	}
+	
 	/**
+	 * Only inherited classes returns specific component definitions.
 	 * 
-	 * 
-	 * @return	
+	 * @return null
 	 */
     public String getDefinition() {
-    	String ret;
-    	
-    	if 		(this instanceof Label)
-    		ret = "\tJLabel " + this.variableName + " = new JLabel(\"" + this.text + "\");\n";
-    	else if (this instanceof Button)
-    		ret = "\tJButton " + this.variableName + " = new JButton(\"" + this.text + "\");\n";
-    	else if (this instanceof TextField)
-    		ret = "\tJTextField " + this.variableName + " = new JTextField(\"" + this.text + "\");\n";
-    	else if (this instanceof TextArea)
-    		ret = "\tJTextArea " + this.variableName + " = new JTextArea(\"" + this.text + "\");\n";
-    	else ret = null;
-    	
-    	
-    	return ret;
+    	return null;
     }
     
     /**
-     * temp
+     * Gets a String representation of the component's layout Java code.
      * 
+     * @return String containing the layout code for the object
      */
 	public String getLayoutCode() {
 		return 	"\t\tgbc.gridx = " + getCol() + ";\n\t\tgbc.gridy = " + getRow() + ";\n" +
@@ -78,25 +72,25 @@ public class BaseComponent implements Serializable {
 	}
 	
 	/**
-	 * temp
+	 * Gets the variable name of the component.
 	 * 
-	 * @return
+	 * @return String of the object's variable name
 	 */
 	public String getVariableName() {
 		return variableName;
 	}
 	
 	/**
-	 * temp
+	 * Sets the variable name of the component.
 	 * 
-	 * @param name
+	 * @param variableName the variable name of the object.
 	 */
 	public void setVariableName(String name) {
 	  this.variableName = name;	
 	}
 	
 	/**
-	 * Returns the component's display text
+	 * Gets the component's display text
 	 * 
 	 * @return the String text of the component
 	 */
@@ -105,73 +99,79 @@ public class BaseComponent implements Serializable {
 	}
 	
 	/**
-	 * Sets the components display text
+	 * Sets the component's display text
 	 * 
-	 * @param the String text of the component
+	 * @param text String text of the component
 	 */
 	public void setText(String text) {
 		this.text = text;
 	}
 	
 	/**
-	 * temp
+	 * Gets the row number of the component's position.
 	 * 
-	 * @return
+	 * @see java.awt.GridBagConstraints
+	 * @return Integer row number which the object is placed.
 	 */
 	public int getRow() {
 		return row;
 	}
 	
 	/**
-	 * temp
+	 * Sets the row number of the component's position
 	 * 
-	 * @param row
+	 * @see java.awt.GridBagConstraints
+	 * @param row Integer row number which the object is placed.
 	 */
 	public void setRow(int row) {
 		this.row = row;
 	}
 	
 	/**
-	 * temp
+	 * Gets the number of rows which the component occupies.
 	 * 
-	 * @return
+	 * @see java.awt.GridBagConstraints
+	 * @return Integer number of rows which the object occupies.
 	 */
 	public int getRows() {
 		return rows;
 	}
-	
-	
+		
 	/**
-	 * temp
+	 * Sets the number of rows which the component occupies.
 	 * 
-	 * @param rows
+	 * @see java.awt.GridBagConstraints
+	 * @param rows Integer number of rows which the object occupies.
 	 */
 	public void setRows(int rows) {
 		this.rows = rows;
 	}
 	
 	/**
-	 * temp
+	 * Gets the column number of the component's position.
 	 * 
-	 * @return 
+	 * @see java.awt.GridBagConstraints
+	 * @return Integer column number of the object's position.
 	 */
 	public int getCol() {
 		return col;
 	}
 	
 	/**
-	 * temp
+	 * Sets the column number of this component's position.
 	 * 
-	 * @param col
+	 * @see java.awt.GridBagConstraints
+	 * @param col Integer number of the column which the object occupies.
 	 */
 	public void setCol(int col) {
 		this.col = col;
 	}
 	
 	/**
-	 * temp
+	 * Gets the number of columns which the component occupies.
 	 * 
-	 * @return
+	 * @see java.awt.GridBagConstraints
+	 * @return Integer number of columns which the object occupies.
 	 */
 	public int getCols() {
 		return cols;
@@ -179,8 +179,9 @@ public class BaseComponent implements Serializable {
 	
 	
 	/**
-	 * temp
+	 * Sets the number of coloumns which the component occupies.
 	 * 
+	 * @see java.awt.GridBagConstraints
 	 * @param cols
 	 */
 	public void setCols(int cols) {
@@ -188,45 +189,51 @@ public class BaseComponent implements Serializable {
 	}
 	
 	/**
-	 * temp
+	 * Gets the anchoring of the component.
 	 * 
-	 * @return
+	 * @see java.awt.GridBagConstraints
+	 * @return Integer value of the anchoring of the object.
 	 */
 	public int getAnchor() {
 		return anchor;
 	}
 	
 	/**
-	 * temp
+	 * Sets the anchoring of the component.
 	 * 
-	 * @param anchor
+	 * @see java.awt.GridBagConstraints
+	 * @param anchor Integer value of the object's anchor.
 	 */
 	public void setAnchor(int anchor) {
 		this.anchor = anchor;
 	}
 	
 	/**
-	 * temp
+	 * Gets the fill of the component.
 	 * 
-	 * @return
+	 * @see java.awt.GridBagConstraints
+	 * @return Integer number of the object's fill.
 	 */
 	public int getFill() {
 		return fill;
 	}
 	
 	/**
-	 * temp
+	 * Sets the fill of the component.
 	 * 
-	 * @param fill
+	 * @see java.awt.GridBagConstraints
+	 * @param fill Integer value of the object's fill.
 	 */
 	public void setFill(int fill) {
 		this.fill = fill;
 	}
 	
 	/**
-	 * temp
+	 * Gets, if existing, special fields specific to each component.
+	 * Inherited classes overrides this method and returns their
+	 * class specific fields.
 	 * 
-	 * @param temp
+	 * @return a JPanel of the specific component's special fields which can be edited
 	 */
 	public Component getSpecialEditor() {
 		return null;

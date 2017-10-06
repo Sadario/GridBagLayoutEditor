@@ -35,5 +35,14 @@ public class TextField extends BaseComponent {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	/**
+	 * Returns a String object definition of the JTextField object
+	 * 
+	 * @return returns a JTextField object definition as a string
+	 */
+	public String getDefinition() {
+		return "\tJTextField " + getVariableName() + " = new JTextField(\"" + getText() + "\");\n";
+	}
 
 }

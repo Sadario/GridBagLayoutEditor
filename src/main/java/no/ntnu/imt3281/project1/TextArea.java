@@ -59,5 +59,14 @@ public class TextArea extends BaseComponent {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+	 * Returns a String object definition of the JTextArea object
+	 * 
+	 * @return returns a JTextArea object definition as a string
+	 */
+	public String getDefinition() {
+		return "\tJTextArea " + getVariableName() + " = new JTextArea(\"" + getText() + "\");\n";
+	}
 
 }

@@ -24,5 +24,15 @@ public class Label extends BaseComponent {
 	public Label(BaseComponent component) {
 		super(component);
 	}
+	
+	
+	/**
+	 * Returns a String object definition of the JLabel object
+	 * 
+	 * @return returns a JLabel object definition as a string
+	 */
+	public String getDefinition() {
+		return "\tJLabel " + getVariableName() + " = new JLabel(\"" + getText() + "\");\n";
+	}
 
 }
