@@ -3,6 +3,10 @@
  */
 package no.ntnu.imt3281.project1;
 
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
+
 /**
  * TextArea class represents a definable JTextArea object
  * to be used in the GridBagLayout editor.
@@ -12,55 +16,83 @@ package no.ntnu.imt3281.project1;
  */
 public class TextArea extends BaseComponent {
 	
-	/**
-	 * 		DATA:
-	 */
-	
 	private static final long serialVersionUID = 1L;
 	private int textRows;
 	private int textCols;
 	private boolean wrap;
 
 	/**
-	 * 		METHODS:
+	 * No argument constructor sets wrap false
+	 * and calls BaseComponent's constructor
+	 * 
+	 * @see BaseComponent#BaseComponent()
 	 */
-	
 	public TextArea() {
-		// TODO Auto-generated constructor stub
+		super();
+		wrap = false;
 	}
 
+	/**
+	 * 
+	 * @see BaseComponent#BaseComponent(BaseComponent)
+	 * @param component to be sent to BaseComponent's constructor
+	 */
 	public TextArea(BaseComponent component) {
-		// TODO Auto-generated constructor stub
+		super(component);
 	}
 
+	/**
+	 * Gets the number of rows in the text area.
+	 * 
+	 * @return Integer number of rows in the text area.
+	 */
 	public int getTextRows() {
-		// TODO
-		return 0;
+		return textRows;
 	}
 	
-	public void setTextRows(int i) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Sets the number of rows in the text area.
+	 * 
+	 * @param textRows Integer number of rows in the text area.
+	 */
+	public void setTextRows(int textRows) {
+		this.textRows = textRows;
 	}
 	
+	/**
+	 * Gets the number of columns in the text area.
+	 * 
+	 * @return Integer number of columns in the text area.
+	 */
 	public int getTextCols() {
-		// TODO
-		return 0;
+		return textCols;
 	}
 
-	public void setTextCols(int i) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Sets the number of columns in the text area.
+	 * 
+	 * @param textCols Integer number of columns in the text area.
+	 */
+	public void setTextCols(int textCols) {
+		this.textCols = textCols;
 	}
 	
+	/**
+	 * Returns true/false dependent on the text area's wrap state.
+	 * 
+	 * @return Boolean true if wrapped, false otherwise.
+	 */
 	public boolean getWrap() {
-		// TODO
-		return false;
+		return wrap;
 	}
 
-	public void setWrap(boolean b) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Sets true/false for the text field's wrap state.
+	 * 
+	 * @param wrap Boolean true or false.
+	 */
+	public void setWrap(boolean wrap) {
+		this.wrap = wrap;
 	}
 	
 	/**
@@ -69,7 +101,24 @@ public class TextArea extends BaseComponent {
 	 * @return returns a JTextArea object definition as a string
 	 */
 	public String getDefinition() {
-		return "\tJTextArea " + getVariableName() + " = new JTextArea(\"" + getText() + "\");\n";
+		return "\tJTextArea " + getVariableName() + " = new JTextArea(\"" + getText() + "\", " + getTextRows() + ", " + getTextCols() + ");\n";
 	}
 
+	/**
+	 * TEMP - needs review/discussion
+	 * 
+	 */
+	public JPanel getSpecialEditor() {
+		return new JPanel(new GridLayout(2,2));
+	}
+	
+    /**
+     * Gets a String representation of the text area's layout Java code.
+     * 
+     * @return String containing the layout code for the object
+     */
+	public String getLayoutCode() {
+		return super.getLayoutCode() + "\t\t" + getVariableName() +
+			   "." + "setWrapStyleWord(" + getWrap() + ");\n";
+	}
 }
