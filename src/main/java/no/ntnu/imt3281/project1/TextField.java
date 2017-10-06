@@ -1,5 +1,9 @@
 package no.ntnu.imt3281.project1;
 
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
+
 /**
  * TextField class represents a definable JTextField object
  * to be used in the GridBagLayout editor.
@@ -7,32 +11,35 @@ package no.ntnu.imt3281.project1;
  * @author Thomas Gundersen & Ola Nicolaisen
  */
 public class TextField extends BaseComponent {
-
-	/**
-	 * 		DATA:
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private int width;
 
-	/**
-	 * 		METHODS:
-	 */
+
 	public TextField() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	public TextField(BaseComponent component) {
-		// TODO Auto-generated constructor stub
+		super(component);
 	}
 
-	public void setWidth(int i) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Sets the width of the text field.
+	 * 
+	 * @param width Integer value of the textfield's width
+	 */
+	public void setWidth(int width) {
+		this.width = width;
 	}
-
+	
+	/**
+	 * Gets the width of the text field.
+	 * 
+	 * @return Integer value of the text field's width.
+	 */
 	public int getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return width;
 	}
 	
 	/**
@@ -42,6 +49,14 @@ public class TextField extends BaseComponent {
 	 */
 	public String getDefinition() {
 		return "\tJTextField " + getVariableName() + " = new JTextField(\"" + getText() + "\");\n";
+	}
+	
+	/**
+	 * TEMP - needs review/discussion
+	 * 
+	 */
+	public JPanel getSpecialEditor() {
+		return new JPanel(new GridLayout(2,2));
 	}
 
 }

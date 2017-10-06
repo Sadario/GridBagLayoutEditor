@@ -1,7 +1,7 @@
 package no.ntnu.imt3281.project1;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.io.Serializable;
+import javax.swing.JPanel;
 
 /**
  * BaseComponent class contains all the common properties
@@ -53,7 +53,7 @@ public class BaseComponent implements Serializable {
 		cols = component.cols;
 		anchor = component.anchor;
 		fill = component.fill;
-		nextComponentID++;
+	//	nextComponentID++;
 	}
 	
 	/**
@@ -184,7 +184,6 @@ public class BaseComponent implements Serializable {
 		return cols;
 	}
 	
-	
 	/**
 	 * Sets the number of coloumns which the component occupies.
 	 * 
@@ -242,7 +241,7 @@ public class BaseComponent implements Serializable {
 	 * 
 	 * @return a JPanel of the specific component's special fields which can be edited
 	 */
-	public Component getSpecialEditor() {
+	public JPanel getSpecialEditor() {
 		return null;
 	}
 }
