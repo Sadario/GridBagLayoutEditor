@@ -3,8 +3,11 @@
  */
 package no.ntnu.imt3281.project1;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
@@ -122,8 +125,23 @@ public class GBLEDataModel extends AbstractTableModel {
 		return null;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param streamObject
+	 */
 	public void save(OutputStream os) {
-		// TODO Auto-generated method stub
+	 /* REVIEW
+	  * 
+	  * Dobbeltsjekk at filnavn/destinasjon er definert i argumentet
+	  * Sett en bedre exception melding
+     */
+		try {
+			ObjectOutputStream out = new ObjectOutputStream(os);  // Wrap the stream object
+			out.writeObject(components);                          // Write the object to stream
+		} catch(IOException e) {
+			System.err.println("Error: " + e);  
+		}
 		
 	}
 
@@ -132,9 +150,12 @@ public class GBLEDataModel extends AbstractTableModel {
 		
 	}
 
+	/**
+	 * Removes all stored components.
+	 * 
+	 */
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		components.clear();
 	}
 
 	/**
