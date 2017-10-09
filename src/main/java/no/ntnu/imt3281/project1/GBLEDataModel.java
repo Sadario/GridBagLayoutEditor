@@ -21,7 +21,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * 		DATA:
 	 */
 	private static final long serialVersionUID = 1L;
-	private Vector<BaseComponent> data;
+	private Vector<BaseComponent> components;
 	private String[] columnNames;
 	
 	/**
@@ -36,7 +36,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 */
 	@Override
 	public int getRowCount() {
-		return data.size();
+		return components.size();
 	}
 
 	/** 
@@ -49,13 +49,30 @@ public class GBLEDataModel extends AbstractTableModel {
 		return columnNames.length;
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * Returns the table value at the specified table cell.
+	 * The private Vector's contents corresponds to the visual table.
+	 * 
+	 * @param rowIndex Integer row value
+	 * @param columnIndex Integer column value
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		BaseComponent temp = components.get(rowIndex);
+		switch(columnIndex) {
+			case 0:  return "J" + temp.getClass().getSimpleName(); // Type
+			case 1:  return temp.getVariableName();                // Variable name
+			case 2:  return temp.getText();                        // Text
+			case 3:  return temp.getRow();                         // Row 
+			case 4:  return temp.getCol();                         // Column
+			case 5:  return temp.getRows();                        // Rows
+			case 6:  return temp.getCols();                        // Columns 
+			case 7:  return temp.getAnchor();                      // Anchor
+			case 8:  return temp.getFill();                        // Fill
+			default: return null;
+		}
+		
 	}
 	
 	
@@ -81,7 +98,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 */
 	public GBLEDataModel() {
 		ResourceBundle rb = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle");
-		data = new Vector<BaseComponent>();
+		components = new Vector<BaseComponent>();
 		columnNames = new String[] {
 				rb.getString("columnName.type"),
 				rb.getString("columnName.variablename"),
@@ -120,18 +137,35 @@ public class GBLEDataModel extends AbstractTableModel {
 		
 	}
 
-	public void addComponent(BaseComponent label) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Adds a component to the table.
+	 * 
+	 * @param component inherited from BaseComponent to be added.
+	 */
+	public void addComponent(BaseComponent component) {
+		components.add(component);
 	}
 
-	public void removeComponent(int i) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Removes the component at the given position.
+	 * 
+	 * @param position Integer position in the components Vector
+	 */
+	public void removeComponent(int position) {
+		components.removeElementAt(position);
 	}
 
-	public void removeComponent(BaseComponent textField2) {
-		// TODO Auto-generated method stub
+	/**
+	 * Removes the first occurence of given component.
+	 * 
+	 * @param component inherited of BaseComponent 
+	 */
+	public void removeComponent(BaseComponent component) {
+		components.removeElement(component);
+		// REVIEW:
+		// remove(Object o) - "removes first occurence of specified element"
+		// removeElement(Object o) - "Removes the first (lowest-indexed) occurence of specified el"
+		// Hvem av dem?
 		
 	}
 
