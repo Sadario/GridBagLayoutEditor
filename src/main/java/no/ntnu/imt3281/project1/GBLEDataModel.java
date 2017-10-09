@@ -191,13 +191,31 @@ public class GBLEDataModel extends AbstractTableModel {
 		
 	}
 
-	public void moveComponentUp(int i) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * Swaps the given component with the one above.
+	 * 
+	 * @param index Integer index of the component to move up.
+	 */
+	public void moveComponentUp(int index) {
+		if(index > 0) {
+		    BaseComponent temp = components.get(index);
+		    components.set(index, components.get(index-1));
+		    components.set(index-1, temp);
+		}
 	}
 	
-	public void moveComponentDown(int i) {
-		// TODO Auto-generated method stub
+	/**
+	 * Swaps the given component with the one below.
+	 * 
+	 * @param index Integer index of the component to move down.
+	 */
+	public void moveComponentDown(int index) {
+		if(index < components.size() - 1) {
+			BaseComponent temp = components.get(index);
+			components.set(index, components.get(index+1));
+			components.set(index+1, temp);
+		}
+
 		
 	}
 }
