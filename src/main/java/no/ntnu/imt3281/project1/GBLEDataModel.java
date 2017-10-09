@@ -56,9 +56,11 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * Returns the table value at the specified table cell.
 	 * The private Vector's contents corresponds to the visual table.
 	 * 
+	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 * @param rowIndex Integer row value
 	 * @param columnIndex Integer column value
-	 * @see javax.swing.table.TableModel#getValueAt(int, int)
+	 * @return String value of a Component's string attributes
+	 * @return Integer value of a Component's integer attributes
 	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
@@ -78,6 +80,48 @@ public class GBLEDataModel extends AbstractTableModel {
 		
 	}
 	
+	/**
+	 * Calls editCompontentAttributes() for the component
+	 * found in the given rowIndex.
+	 * 
+	 * @param stringVal String value of the component type
+	 * @param rowIndex Integer value of the component's row index
+	 * @param columnIndex Integer value of the component's column index
+	 * @see javax.swing.table.TableModel#setValueAt(object, int, int)
+	 * @see GBLEDataModel#editComponentAttributes(BaseComponent, String, int)
+	 */
+	@Override
+	public void setValueAt(Object stringVal, int rowIndex, int columnIndex) {
+		BaseComponent temp = components.get(rowIndex);
+		switch(columnIndex) {
+		    case 0: editComponentAttributes(temp, stringVal.toString(), columnIndex);
+		    case 1:  
+		    case 2:                  
+		    case 3:                       
+		    case 4:                
+		    case 5:  
+		    case 6:  
+		    case 7: 
+		    case 8:   
+		    default: break;
+	    }
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param comp BaseComponent child to be edited.
+	 * @param val String value of the component type.
+	 * @param index Integer value of the index in the BaseComponent Vector
+	 */
+	private void editComponentAttributes(BaseComponent comp, String val, int index) {
+		switch(val) {
+		case "JTextField": components.set(index, new TextField(comp)); break;
+		case "JTextArea":  components.set(index, new TextArea(comp));  break;
+		case "JLabel":     components.set(index, new Label(comp));     break;
+		case "JButton":    components.set(index, new Button(comp));    break;
+		}
+	}
 	
 	/**
 	 * Returns the name of the column.
@@ -116,8 +160,8 @@ public class GBLEDataModel extends AbstractTableModel {
 	}
 	
 	public String getDefinitions() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return "hei";
 	}
 	
 	public String getLayoutCode() {
@@ -178,7 +222,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	}
 
 	/**
-	 * Removes the first occurence of given component.
+	 * Removes the first occurrence of given component.
 	 * 
 	 * @param component inherited of BaseComponent 
 	 */
