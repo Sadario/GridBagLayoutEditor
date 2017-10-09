@@ -134,13 +134,14 @@ public class GBLEDataModel extends AbstractTableModel {
 	 /* REVIEW
 	  * 
 	  * Dobbeltsjekk at filnavn/destinasjon er definert i argumentet
-	  * Sett en bedre exception melding
+	  * Exception må dirigeres et annet sted.
      */
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(os);  // Wrap the stream object
-			out.writeObject(components);                          // Write the object to stream
+			ObjectOutputStream out = new ObjectOutputStream(os);  // Wrap the stream object, making it serialized
+			out.writeObject(components);                          // Write the object to the out stream
 		} catch(IOException e) {
-			System.err.println("Error: " + e);  
+			System.err.println("A file writing error occured. " +
+		        "Check your write permissions and remaining disk space.");
 		}
 		
 	}
