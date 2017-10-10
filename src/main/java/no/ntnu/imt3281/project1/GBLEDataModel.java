@@ -5,6 +5,7 @@ package no.ntnu.imt3281.project1;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -92,7 +93,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 */
 	@Override
 	public void setValueAt(Object stringVal, int rowIndex, int columnIndex) {
-		BaseComponent temp = components.get(rowIndex);
+		BaseComponent temp = components.get(rowIndex);   
 		switch(columnIndex) {
 		    case 0: editComponentAttributes(temp, stringVal.toString(), columnIndex);
 		    case 1:  
@@ -108,7 +109,9 @@ public class GBLEDataModel extends AbstractTableModel {
 	}
 	
 	/**
-	 * 
+	 * Changes the component type by creating a new instance
+	 * of the component corresponding to the given string value, in 
+	 * the given Vector index.
 	 * 
 	 * @param comp BaseComponent child to be edited.
 	 * @param val String value of the component type.
@@ -159,9 +162,19 @@ public class GBLEDataModel extends AbstractTableModel {
 		};
 	}
 	
+	/**
+	 * Returns the definitions to all objects in the Vector
+	 * separated by new line characters.
+	 * 
+	 * @return String value of the objects' definitions
+	 */
 	public String getDefinitions() {
+		StringBuilder defs = new StringBuilder();
 		
-		return "hei";
+		for(BaseComponent obj : components) {
+			defs.append(obj.getDefinition());
+			}
+		return defs.toString();
 	}
 	
 	public String getLayoutCode() {
@@ -172,7 +185,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	/**
 	 * 
 	 * 
-	 * @param streamObject
+	 * @param os
 	 */
 	public void save(OutputStream os) {
 	 /* REVIEW
@@ -190,9 +203,25 @@ public class GBLEDataModel extends AbstractTableModel {
 		
 	}
 
+	/**
+	 * 
+	 * @param is
+	 */
+	@SuppressWarnings("unchecked")
 	public void load(InputStream is) {
-		// TODO Auto-generated method stub
-		
+		/**
+		 * REVIEW
+		 * Helt utrolig at testen gikk igjennom.
+		 * Vi må få en bedre forståelse for save(), load() og 
+		 * fikse de.
+		 */
+		try {
+			ObjectInputStream in = new ObjectInputStream(is);
+			components = (Vector<BaseComponent>) in.readObject();
+		} catch(IOException e) {
+			System.err.println("err");
+		} catch(ClassNotFoundException temp) { // Vet ikke hvorfor in.readObject(); krevde denne
+		}
 	}
 
 	/**
