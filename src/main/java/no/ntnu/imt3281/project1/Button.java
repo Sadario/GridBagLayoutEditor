@@ -20,7 +20,7 @@ public class Button extends BaseComponent {
 	}
 
 	/**
-	 * 1-argument constructor takes Button object and 
+	 * 1-argument constructor takes a Button object and 
 	 * sends it to the BaseComponent.
 	 * 
 	 * @see BaseComponent#BaseComponent(BaseComponent)

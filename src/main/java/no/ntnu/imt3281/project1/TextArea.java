@@ -23,8 +23,8 @@ public class TextArea extends BaseComponent {
 	private boolean wrap;
 
 	/**
-	 * No argument constructor sets wrap false
-	 * and calls BaseComponent's constructor
+	 * No argument constructor calls BaseComponent's constructor
+	 * and sets wrapping to false.
 	 * 
 	 * @see BaseComponent#BaseComponent()
 	 */

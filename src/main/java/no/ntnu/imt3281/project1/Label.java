@@ -20,10 +20,23 @@ public class Label extends BaseComponent {
 	/**
 	 * 		METHODS:
 	 */
+	
+	/**
+	 * No argument constructor calls BaseComponent's constructor
+	 * 
+	 * @see BaseComponent#BaseComponent()
+	 */
 	public Label() {
 		super();
 	}
 
+	/**
+	 * 1-argument constructor takes a Label object and 
+	 * sends it to the BaseComponent.
+	 * 
+	 * @see BaseComponent#BaseComponent(BaseComponent)
+	 * @param component to be sent to BaseComponent's constructor
+	 */
 	public Label(BaseComponent component) {
 		super(component);
 	}
