@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
  * 
  * Composition(?) med protected I18N objekt i App klassen (antar dette er øverste klasse) 
  * der alle underklasser har tilgang til objektet og dens funksjoner.
- * eks: I18N localLang = new I18N;
+ * eks: I18N localLang = new I18N();
  *      ...
  *      localLang.getString("columnName.type");
  * 

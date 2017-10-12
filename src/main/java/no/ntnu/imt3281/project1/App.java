@@ -1,6 +1,7 @@
 package no.ntnu.imt3281.project1;
 
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 
 /**
  * App class serves as a container for the whole application and also contains
@@ -19,8 +20,11 @@ public class App extends JFrame
 	 * 
 	 */
 	public App() {
-		super("Window title test");
+		super("GridBagLayout editor");
 		data = new GBLEDataModel();
+		
+		JMenuBar bar = new MenuBar();
+		this.setJMenuBar(bar);
 	}
 	
 	/**
