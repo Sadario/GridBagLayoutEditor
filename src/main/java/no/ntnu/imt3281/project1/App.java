@@ -25,6 +25,9 @@ public class App extends JFrame
 		
 		JMenuBar bar = new MenuBar();
 		this.setJMenuBar(bar);
+		
+		ToolBar toolBar = new ToolBar();
+		this.add(toolBar);
 	}
 	
 	/**

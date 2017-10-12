@@ -25,7 +25,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * 		DATA:
 	 */
 	private static final long serialVersionUID = 1L;
-	private Vector<BaseComponent> components;
+	private static Vector<BaseComponent> components;
 	private String[] columnNames;
 	
 	/**
@@ -228,7 +228,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * Removes all stored components.
 	 * 
 	 */
-	public void clear() {
+	public static void clear() {
 		components.clear();
 	}
 
