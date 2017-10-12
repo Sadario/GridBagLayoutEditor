@@ -1,5 +1,6 @@
 package no.ntnu.imt3281.project1;
 
+import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 
@@ -21,13 +22,14 @@ public class App extends JFrame
 	 */
 	public App() {
 		super("GridBagLayout editor");
+		this.setLayout(new BorderLayout());
 		data = new GBLEDataModel();
 		
 		JMenuBar bar = new MenuBar();
 		this.setJMenuBar(bar);
 		
 		ToolBar toolBar = new ToolBar();
-		this.add(toolBar);
+		this.add(toolBar, BorderLayout.NORTH);
 	}
 	
 	/**

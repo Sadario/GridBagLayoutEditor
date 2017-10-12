@@ -29,7 +29,9 @@ public class ToolBar extends JToolBar {
 		
 		button = makeButton("New.gif", "newFile");
 		toolBar.add(button);
-		/*button = makeButton("OpenDoc.gif", "openFile");
+		button = makeButton("OpenDoc.gif", "openFile");
+		toolBar.add(button);
+		button = makeButton("Save.gif", "saveFile");
 		toolBar.add(button);
 		toolBar.addSeparator();
 		button = makeButton("ExecuteProject.gif", "generate");
@@ -44,17 +46,19 @@ public class ToolBar extends JToolBar {
 		button = makeButton("MoveRowDown.gif", "moveRowDown");
 		toolBar.add(button);
 		toolBar.addSeparator();
-		button = makeButton("Help.gif", "help");*/
+		button = makeButton("Help.gif", "help");
+		toolBar.add(button);
 		
 	}
 
 	private JButton makeButton(	String iconName,
 								String buttonName ) {
+		//ButtonHandler handler = new ButtonHandler();
 		I18N bundle = new I18N();
 		JButton button = new JButton();
 		Icon icon = new ImageIcon(getClass().getResource("graphics/" + iconName));
-		button.setActionCommand(buttonName);
-		//button.addActionListener(new ButtonListener());
+		//button.setActionCommand(buttonName);
+		//button.addActionListener(handler);
 		button.setToolTipText(bundle.getString("buttons." + buttonName + ".toolTip"));
 		button.setIcon(icon);
 		
@@ -89,8 +93,8 @@ public class ToolBar extends JToolBar {
 
 	// #TODO WORK IN PROGRESS
 	
-	/*
-	private class ButtonHandler implements ActionListener {
+	
+	/*private class ButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
