@@ -19,16 +19,16 @@ public class ToolBar extends JToolBar {
 	/**
 	 * 
 	 */
-	public ToolBar() {
+	public ToolBar(ButtonListener l) {                             // TESTING
 		super("Draggable");
-		addButtons(this);
+		addButtons(this, l);                                       // TESTING
 	}
 
-	private void addButtons(ToolBar toolBar) {
+	private void addButtons(ToolBar toolBar, ButtonListener l) {   // TESTING
 		JButton button = null;
-		
 		button = makeButton("New.gif", "newFile");
 		toolBar.add(button);
+		button.addActionListener(l);                                // TESTING
 		button = makeButton("OpenDoc.gif", "openFile");
 		toolBar.add(button);
 		button = makeButton("Save.gif", "saveFile");
