@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 
 /**
@@ -16,19 +17,16 @@ import javax.swing.JToolBar;
  *
  */
 public class ToolBar extends JToolBar {
-	/**
-	 * 
-	 */
-	public ToolBar(ButtonListener l) {                             // TESTING
+
+	public ToolBar() {        
 		super("Draggable");
-		addButtons(this, l);                                       // TESTING
+		addButtons(this);                                 
 	}
 
-	private void addButtons(ToolBar toolBar, ButtonListener l) {   // TESTING
+	private void addButtons(ToolBar toolBar) {
 		JButton button = null;
 		button = makeButton("New.gif", "newFile");
 		toolBar.add(button);
-		button.addActionListener(l);                                // TESTING
 		button = makeButton("OpenDoc.gif", "openFile");
 		toolBar.add(button);
 		button = makeButton("Save.gif", "saveFile");
@@ -53,12 +51,12 @@ public class ToolBar extends JToolBar {
 
 	private JButton makeButton(	String iconName,
 								String buttonName ) {
-		//ButtonHandler handler = new ButtonHandler();
+		ButtonHandler handler = new ButtonHandler();
 		I18N bundle = new I18N();
 		JButton button = new JButton();
 		Icon icon = new ImageIcon(getClass().getResource("graphics/" + iconName));
-		//button.setActionCommand(buttonName);
-		//button.addActionListener(handler);
+		button.setActionCommand(buttonName);
+		button.addActionListener(handler);
 		button.setToolTipText(bundle.getString("buttons." + buttonName + ".toolTip"));
 		button.setIcon(icon);
 		
@@ -93,8 +91,12 @@ public class ToolBar extends JToolBar {
 
 	// #TODO WORK IN PROGRESS
 	
+	private void newFile() {
+		JOptionPane.showMessageDialog(null, "newFile()");
+	}
 	
-	/*private class ButtonHandler implements ActionListener {
+	
+	private class ButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
@@ -110,9 +112,7 @@ public class ToolBar extends JToolBar {
 		}
 		
 
-		private void newFile() {
-			GBLEDataModel.clear();
-		}
+
 	}
-	*/
+	
 }

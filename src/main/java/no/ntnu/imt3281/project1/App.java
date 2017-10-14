@@ -14,8 +14,7 @@ import javax.swing.JMenuBar;
  */
 public class App extends JFrame
 {
-	GBLEDataModel data;
-	ButtonListener listener;                        // TESTING
+	private GBLEDataModel data;
 	
 	/**
 	 * 
@@ -29,8 +28,8 @@ public class App extends JFrame
 		JMenuBar bar = new MenuBar();
 		this.setJMenuBar(bar);
 		
-		listener = new ButtonListener();             // TESTING
-		ToolBar toolBar = new ToolBar(listener);     // TESTING 
+
+		ToolBar toolBar = new ToolBar();
 		this.add(toolBar, BorderLayout.NORTH);
 	}
 	
