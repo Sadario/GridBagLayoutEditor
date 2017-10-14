@@ -4,20 +4,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Har 2 forslag til impelmentasjon av denne:
- * 
- * Statisk klasse/funksjoner slik at alle eksisterende klasser
- * og funksjoner kan kalle på denne klassens metoder direkte
- *  eks: String columnHeaderType = I18N.getString("columnName.type");
- * 
- * Composition(?) med protected I18N objekt i App klassen (antar dette er øverste klasse) 
- * der alle underklasser har tilgang til objektet og dens funksjoner.
- * eks: I18N localLang = new I18N();
- *      ...
- *      localLang.getString("columnName.type");
- * 
- * oppdater public GBLEDataModel() når vi har kommet til en enighet
- * 
+ * Temp kommentar: Gjorde klassen statisk slik at konstruktoren til App()
+ * kan bruke klassen for en dynamisk vindustittel.
  * 
  * @author thomasgg
  * @author sadario
@@ -25,15 +13,16 @@ import java.util.ResourceBundle;
  */
 public class I18N {
 	
-	private Locale locale;
-	private ResourceBundle bundle;
+	private static I18N i18n = new I18N();
+	private static Locale locale;
+	private static ResourceBundle bundle;
 	
 	/**
 	 * No argument constructor
 	 */
 	public I18N() {
 		locale = Locale.getDefault();
-		bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
+		I18N.bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
 	}
 	
 	/**
@@ -41,8 +30,8 @@ public class I18N {
 	 * @param key String key with a match in the AppResourcesBundle .properties files.
 	 * @return String value belonging to the matching key argument
 	 */
-	public String getString(String key) {
-		return bundle.getString(key);
+	public static String getString(String key) {
+		return I18N.bundle.getString(key);
 	}
 
 }

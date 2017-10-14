@@ -136,7 +136,15 @@ public class GBLEDataModel extends AbstractTableModel {
 	public String getColumnName(int column) {
 		return columnNames[column];
 	}
-
+	
+	/**
+	 * Returns the number of column headings
+	 * 
+	 * @return Integer number of column headings
+	 */
+	public int getNumColumns() {
+		return columnNames.length;
+	}
 	
 	/**
 	 * 		METHODS:
@@ -239,6 +247,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 */
 	public void addComponent(BaseComponent component) {
 		components.add(component);
+		fireTableRowsInserted(components.size(), components.size());
 	}
 
 	/**

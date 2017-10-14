@@ -52,12 +52,11 @@ public class ToolBar extends JToolBar {
 	private JButton makeButton(	String iconName,
 								String buttonName ) {
 		ButtonHandler handler = new ButtonHandler();
-		I18N bundle = new I18N();
 		JButton button = new JButton();
 		Icon icon = new ImageIcon(getClass().getResource("graphics/" + iconName));
 		button.setActionCommand(buttonName);
 		button.addActionListener(handler);
-		button.setToolTipText(bundle.getString("buttons." + buttonName + ".toolTip"));
+		button.setToolTipText(I18N.getString("buttons." + buttonName + ".toolTip"));
 		button.setIcon(icon);
 		
 		
