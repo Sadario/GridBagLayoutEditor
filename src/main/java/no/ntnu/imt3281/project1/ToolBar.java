@@ -75,10 +75,4 @@ public class ToolBar extends JToolBar {
 		super(name, orientation);
 		// TODO Auto-generated constructor stub
 	}
-
-	// #TODO WORK IN PROGRESS
-	
-	private void newFile() {
-		JOptionPane.showMessageDialog(null, "newFile()");
-	}
 }

@@ -126,21 +126,25 @@ public class App extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
-		//	JOptionPane.showMessageDialog(null, cmd);
 			
 			switch (cmd) {
-			
-			case "newFile":
-				data.clear();
-				break;
+				case "newFile":
+					data.clear();
+					break;
 				
-			case "newRow":
-				data.addComponent(new Label());
-				break;
+				case "newRow":
+					data.addComponent(new Label());
+					break;
 
-			default:
-				JOptionPane.showMessageDialog(null, cmd);
-				break;
+				case "moveRowUp":
+					data.moveComponentUp(table.getSelectedRow());
+					break;
+				case "moveRowDown":
+					data.moveComponentDown(table.getSelectedRow());
+					break;
+				default:
+					JOptionPane.showMessageDialog(null, cmd);
+					break;
 			}
 		}
 	}

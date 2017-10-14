@@ -284,6 +284,7 @@ public class GBLEDataModel extends AbstractTableModel {
 		    BaseComponent temp = components.get(index);
 		    components.set(index, components.get(index-1));
 		    components.set(index-1, temp);
+		    fireTableRowsUpdated(index-1, index);
 		}
 	}
 	
@@ -297,6 +298,7 @@ public class GBLEDataModel extends AbstractTableModel {
 			BaseComponent temp = components.get(index);
 			components.set(index, components.get(index+1));
 			components.set(index+1, temp);
+			fireTableRowsUpdated(index, index+1);
 		}
 
 		
