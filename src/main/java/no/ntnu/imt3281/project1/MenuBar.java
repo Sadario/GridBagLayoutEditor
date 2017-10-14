@@ -111,7 +111,7 @@ public class MenuBar extends JMenuBar {
 	 * @param graphic the name of the file in folder 'graphics' (entire file-name e.g. "New.gif", or "" if no graphic is needed). 
 	 * @return JMenuItem-object to add to parent-JMenu.
 	 */	
-	public JMenuItem createJMenuItem(String parent, String name, String graphic) {
+	public JMenuItem createJMenuItem(String parent, String name, String graphic, ActionListener handler) {
 		JMenuItem object;
 		String itemPath = "menuBar." + parent + '.' + name;
 		String mnemonic = itemPath + ".mnemonic";
@@ -123,6 +123,7 @@ public class MenuBar extends JMenuBar {
 		mnemonic = I18N.getString(mnemonic);
 		object.setMnemonic(mnemonic.charAt(0));
 		object.setActionCommand(name);
+		object.addActionListener(handler);
 		return object;
 	}
 	

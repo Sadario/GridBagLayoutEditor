@@ -47,47 +47,45 @@ public class App extends JFrame
 	 */
 	private void createAndShowBars() {
 		MenuBar bar = new MenuBar();
-		createFileMenu(bar);
-		createEditMenu(bar);
-		createHelpMenu(bar);
+		ClickHandler handler = new ClickHandler();
+		createFileMenu(bar, handler);
+		createEditMenu(bar, handler);
+		createHelpMenu(bar, handler);
 		ToolBar toolBar = new ToolBar();
 		this.add(toolBar, BorderLayout.NORTH);
 	}
 	
-	private void createFileMenu(MenuBar bar) {
+	private void createFileMenu(MenuBar bar, ClickHandler handler) {
 		
 		JMenu fileMenu = bar.createJMenu("menuBar.file");      
 		bar.add(fileMenu);
 		
-		fileMenu.add(bar.createJMenuItem("file", "new", "New.gif"));
-		fileMenu.add(bar.createJMenuItem("file", "open", "OpenDoc.gif"));
-		fileMenu.add(bar.createJMenuItem("file", "save", "Save.gif"));
-		fileMenu.add(bar.createJMenuItem("file", "saveAs", "Save.gif"));
+		fileMenu.add(bar.createJMenuItem("file", "newFile", "New.gif", handler));
+		fileMenu.add(bar.createJMenuItem("file", "open", "OpenDoc.gif", handler));
+		fileMenu.add(bar.createJMenuItem("file", "save", "Save.gif", handler));
+		fileMenu.add(bar.createJMenuItem("file", "saveAs", "Save.gif", handler));
 		fileMenu.addSeparator();
-		fileMenu.add(bar.createJMenuItem("file", "preview", ""));
-		fileMenu.add(bar.createJMenuItem("file", "generate", "SaveJava.gif"));
+		fileMenu.add(bar.createJMenuItem("file", "preview", "", handler));
+		fileMenu.add(bar.createJMenuItem("file", "generate", "SaveJava.gif", handler));
 		fileMenu.addSeparator();
-		fileMenu.add(bar.createJMenuItem("file", "exit", ""));
+		fileMenu.add(bar.createJMenuItem("file", "exit", "", handler));
 		
 		this.setJMenuBar(bar);
 	}
 	
-	private void createEditMenu(MenuBar bar) {
+	private void createEditMenu(MenuBar bar, ClickHandler handler) {
 		JMenu editMenu = bar.createJMenu("menuBar.edit");
 		bar.add(editMenu);
 		
 		// test
 		
-		JMenuItem newRowMenuItem = bar.createJMenuItem("edit", "newRow", "NewRow.gif");
-		newRowMenuItem.addActionListener(new ClickHandler());
-		
-		editMenu.add(newRowMenuItem);
+		editMenu.add(bar.createJMenuItem("edit", "newRow", "NewRow.gif", handler));
 		editMenu.addSeparator();
-		editMenu.add(bar.createJMenuItem("edit", "preferences", ""));
+		editMenu.add(bar.createJMenuItem("edit", "preferences", "", handler));
 		
 	}
 	
-	private void createHelpMenu(MenuBar bar) {
+	private void createHelpMenu(MenuBar bar, ClickHandler handler) {
 		
 	}
 	
@@ -128,10 +126,14 @@ public class App extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
+		//	JOptionPane.showMessageDialog(null, cmd);
 			
 			switch (cmd) {
 			
-			case "": 
+			case "newFile":
+				data.clear();
+				
+				break;
 			case "newRow":
 				data.addComponent(new Label());
 				break;
