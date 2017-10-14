@@ -155,18 +155,17 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * It also sets the column-names for the table, according to locale-settings.
 	 */
 	public GBLEDataModel() {
-		ResourceBundle rb = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle");
 		components = new Vector<BaseComponent>();
 		columnNames = new String[] {
-				rb.getString("columnName.type"),
-				rb.getString("columnName.variablename"),
-				rb.getString("columnName.text"),
-				rb.getString("columnName.row"),
-				rb.getString("columnName.column"),
-				rb.getString("columnName.rows"),
-				rb.getString("columnName.columns"),
-				rb.getString("columnName.anchor"),
-				rb.getString("columnName.fill")
+				I18N.getString("columnName.type"),
+				I18N.getString("columnName.variablename"),
+				I18N.getString("columnName.text"),
+				I18N.getString("columnName.row"),
+				I18N.getString("columnName.column"),
+				I18N.getString("columnName.rows"),
+				I18N.getString("columnName.columns"),
+				I18N.getString("columnName.anchor"),
+				I18N.getString("columnName.fill")
 		};
 	}
 	

@@ -104,9 +104,7 @@ public class App extends JFrame
 		for(int ii = 0; ii < data.getNumColumns(); ++ii) {
 			columnHeaders[ii] = data.getColumnName(ii);
 	//		table.getColumnModel().getColumn(ii).setPreferredWidth(20);
-		}
-		
-		
+		}		
 	}
 	
 
@@ -118,8 +116,7 @@ public class App extends JFrame
 	 */
     public static void main( String[] args )
     {
-        App window = new App();
-        
+    	App window = new App();
     }
     
 	private class ClickHandler implements ActionListener {

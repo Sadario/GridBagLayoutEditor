@@ -13,25 +13,26 @@ import java.util.ResourceBundle;
  */
 public class I18N {
 	
-	private static I18N i18n = new I18N();
-	private static Locale locale;
-	private static ResourceBundle bundle;
-	
-	/**
-	 * No argument constructor
-	 */
-	public I18N() {
-		locale = Locale.getDefault();
-		I18N.bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
-	}
-	
+	private static Locale locale = Locale.ENGLISH;	// Uncomment for English language (during development)
+	//private static Locale locale = Locale.getDefault(); // Uncomment for Norwegian language (during development)
+	private static ResourceBundle bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
+		
 	/**
 	 * 
 	 * @param key String key with a match in the AppResourcesBundle .properties files.
 	 * @return String value belonging to the matching key argument
 	 */
 	public static String getString(String key) {
-		return I18N.bundle.getString(key);
+		return bundle.getString(key);
 	}
-
+	
+	/*public static void changeLocale(String loc) {
+		locale = null;
+		if (loc.equals("en")) {
+			
+			//locale = Locale.ENGLISH;
+		} else if (loc.equals("no")){
+			locale = new Locale("no", "NO");
+		}
+	}*/
 }
