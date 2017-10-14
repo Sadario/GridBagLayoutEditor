@@ -18,49 +18,37 @@ import javax.swing.JToolBar;
  */
 public class ToolBar extends JToolBar {
 
-	public ToolBar() {        
+	public ToolBar(ActionListener handler) {        
 		super("Draggable");
-		addButtons(this);                                 
+		addButtons(this, handler);                                 
 	}
 
-	private void addButtons(ToolBar toolBar) {
-		JButton button = null;
-		button = makeButton("New.gif", "newFile");
-		toolBar.add(button);
-		button = makeButton("OpenDoc.gif", "openFile");
-		toolBar.add(button);
-		button = makeButton("Save.gif", "saveFile");
-		toolBar.add(button);
+	private void addButtons(ToolBar toolBar, ActionListener handler) {
+		makeButton("New.gif", "newFile", handler);
+		makeButton("OpenDoc.gif", "openFile", handler);
+		makeButton("Save.gif", "saveFile", handler);
 		toolBar.addSeparator();
-		button = makeButton("ExecuteProject.gif", "generate");
-		toolBar.add(button);
-		button = makeButton("SaveJava.gif", "saveBin");
-		toolBar.add(button);
+		makeButton("ExecuteProject.gif", "generate", handler);
+		makeButton("SaveJava.gif", "saveBin", handler);
 		toolBar.addSeparator();
-		button = makeButton("NewRow.gif", "newRow");
-		toolBar.add(button);
-		button = makeButton("MoveRowUp.gif", "moveRowUp");
-		toolBar.add(button);
-		button = makeButton("MoveRowDown.gif", "moveRowDown");
-		toolBar.add(button);
+		makeButton("NewRow.gif", "newRow", handler);
+		makeButton("MoveRowUp.gif", "moveRowUp", handler);
+		makeButton("MoveRowDown.gif", "moveRowDown", handler);
 		toolBar.addSeparator();
-		button = makeButton("Help.gif", "help");
-		toolBar.add(button);
+		makeButton("Help.gif", "help", handler);
 		
 	}
 
-	private JButton makeButton(	String iconName,
-								String buttonName ) {
-		ButtonHandler handler = new ButtonHandler();
+	private void makeButton(	String iconName,
+								String buttonName, 
+								ActionListener handler) {
 		JButton button = new JButton();
 		Icon icon = new ImageIcon(getClass().getResource("graphics/" + iconName));
 		button.setActionCommand(buttonName);
 		button.addActionListener(handler);
 		button.setToolTipText(I18N.getString("buttons." + buttonName + ".toolTip"));
 		button.setIcon(icon);
-		
-		
-		return button;
+		this.add(button);
 	}
 
 	/**
@@ -93,25 +81,4 @@ public class ToolBar extends JToolBar {
 	private void newFile() {
 		JOptionPane.showMessageDialog(null, "newFile()");
 	}
-	
-	
-	private class ButtonHandler implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String cmd = e.getActionCommand();
-			
-			switch (cmd) {
-			case "newFile":
-				newFile();
-				break;
-
-			default:
-				break;
-			}
-		}
-		
-
-
-	}
-	
 }

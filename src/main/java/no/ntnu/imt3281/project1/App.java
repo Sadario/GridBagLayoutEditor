@@ -51,7 +51,7 @@ public class App extends JFrame
 		createFileMenu(bar, handler);
 		createEditMenu(bar, handler);
 		createHelpMenu(bar, handler);
-		ToolBar toolBar = new ToolBar();
+		ToolBar toolBar = new ToolBar(handler);
 		this.add(toolBar, BorderLayout.NORTH);
 	}
 	
@@ -132,19 +132,16 @@ public class App extends JFrame
 			
 			case "newFile":
 				data.clear();
-				
 				break;
+				
 			case "newRow":
 				data.addComponent(new Label());
 				break;
 
 			default:
+				JOptionPane.showMessageDialog(null, cmd);
 				break;
 			}
 		}
-		
-
-
 	}
-    
 }
