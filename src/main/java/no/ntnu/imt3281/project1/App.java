@@ -136,19 +136,34 @@ public class App extends JFrame
 	private void createAndShowTable() {
 		data = new GBLEDataModel();
 		table = new JTable(data);
-	    add(new JScrollPane(table));
+		add(new JScrollPane(table));
 	    
-	    makeEditableTableColumns(table, data);
+	    makeTableColumnsEditable(table, data);
+	    
+	    
+	    table.getColumnModel().getColumn(0).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(1).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(2).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(3).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(4).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(5).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(6).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(7).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(8).setPreferredWidth(100);
+	    table.setRowHeight(20);
+	    
 	}
 	
 	/**
 	 * Makes each table cell interactive and editable.
 	 * 
 	 */
-	private void makeEditableTableColumns(JTable table, GBLEDataModel data) {
+	private void makeTableColumnsEditable(JTable table, GBLEDataModel data) {
 		String[] componentTypes = { "JLabel", "JButton", "JTextField", "JTextArea" };
 		JComboBox<String> comboBox0 = new JComboBox<String>(componentTypes);
 		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox0));
+		
+		System.out.println("testing: makeTableColumnsEditable() done");
 	}
 
 	

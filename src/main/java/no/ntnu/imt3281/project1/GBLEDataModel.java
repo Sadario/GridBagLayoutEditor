@@ -108,10 +108,6 @@ public class GBLEDataModel extends AbstractTableModel {
 	    }
 	}
 	
-	public void test() {
-		fireTableStructureChanged();
-	}
-	
 	/**
 	 * Changes the component type by creating a new instance
 	 * of the component corresponding to the given string value, in 
@@ -303,7 +299,15 @@ public class GBLEDataModel extends AbstractTableModel {
 			components.set(index+1, temp);
 			fireTableRowsUpdated(index, index+1);
 		}
-
-		
+	}
+	
+	/**
+	 * Cells are editable by default.
+	 * @return Boolean true
+	 * 
+	 */
+	@Override
+	public boolean isCellEditable(int row, int col) {
+		return true;
 	}
 }
