@@ -15,6 +15,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -66,6 +67,11 @@ public class App extends JFrame
 		ToolBar toolBar = new ToolBar(handler);
 		createToolbar(toolBar, handler);
 		add(toolBar, BorderLayout.NORTH);
+		
+		JTextField statusBar = new JTextField("statusBar - TestText");
+		statusBar.setEditable(false);
+		statusBar.setHighlighter(null);
+		add(statusBar, BorderLayout.SOUTH);
 	}
 	
 	/**
@@ -140,7 +146,10 @@ public class App extends JFrame
 	    
 	    makeTableColumnsEditable(table, data);
 	    
-	    
+	    for (int i = 0; i <= 8; i++) {		// Kortere kode. Behov for å endre bredde på hver enkelt?
+	    	table.getColumnModel().getColumn(i).setPreferredWidth(100);
+	    }
+	    /*
 	    table.getColumnModel().getColumn(0).setPreferredWidth(100);
 	    table.getColumnModel().getColumn(1).setPreferredWidth(100);
 	    table.getColumnModel().getColumn(2).setPreferredWidth(100);
@@ -150,6 +159,7 @@ public class App extends JFrame
 	    table.getColumnModel().getColumn(6).setPreferredWidth(100);
 	    table.getColumnModel().getColumn(7).setPreferredWidth(100);
 	    table.getColumnModel().getColumn(8).setPreferredWidth(100);
+	    */
 	    table.setRowHeight(20);
 	    
 	}
