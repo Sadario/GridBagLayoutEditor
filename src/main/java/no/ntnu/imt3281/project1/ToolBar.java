@@ -20,10 +20,11 @@ public class ToolBar extends JToolBar {
 
 	public ToolBar(ActionListener handler) {        
 		super("Draggable");
-		addButtons(this, handler);                                 
+	//	addButtons(this, handler);                                 
 	}
 
-	private void addButtons(ToolBar toolBar, ActionListener handler) {
+	/*
+	public void addButtons(ToolBar toolBar, ActionListener handler) {
 		makeButton("New.gif", "newFile", handler);
 		makeButton("OpenDoc.gif", "openFile", handler);
 		makeButton("Save.gif", "saveFile", handler);
@@ -38,10 +39,10 @@ public class ToolBar extends JToolBar {
 		makeButton("Help.gif", "help", handler);
 		
 	}
-
-	private void makeButton(	String iconName,
-								String buttonName, 
-								ActionListener handler) {
+*/
+	public void makeButton(	String iconName,
+						    String buttonName, 
+							ActionListener handler) {
 		JButton button = new JButton();
 		Icon icon = new ImageIcon(getClass().getResource("graphics/" + iconName));
 		button.setActionCommand(buttonName);

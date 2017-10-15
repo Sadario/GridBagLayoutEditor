@@ -42,19 +42,30 @@ public class App extends JFrame
 	}
 	
 	/**
-	 * Creates the surrounding menu- and toolbars.
+	 * Calls the functions which creates the surrounding menu- and toolbars.
 	 * 
 	 */
 	private void createAndShowBars() {
-		MenuBar bar = new MenuBar();
+		
 		ClickHandler handler = new ClickHandler();
-		createFileMenu(bar, handler);
-		createEditMenu(bar, handler);
-		createHelpMenu(bar, handler);
+		
+		MenuBar menuBar = new MenuBar();		
+		createFileMenu(menuBar, handler);
+		createEditMenu(menuBar, handler);
+		createHelpMenu(menuBar, handler);
+		setJMenuBar(menuBar);
+		
 		ToolBar toolBar = new ToolBar(handler);
-		this.add(toolBar, BorderLayout.NORTH);
+		createToolbar(toolBar, handler);
+		add(toolBar, BorderLayout.NORTH);
 	}
 	
+	/**
+	 * Creates the file menu and attaches appropriate event handlers.
+	 * 
+	 * @param bar Menu bar object which contains all the menu items.
+	 * @param handler private ClickHandler object which manages the event handlers.
+	 */
 	private void createFileMenu(MenuBar bar, ClickHandler handler) {
 		
 		JMenu fileMenu = bar.createJMenu("menuBar.file");      
@@ -70,14 +81,12 @@ public class App extends JFrame
 		fileMenu.addSeparator();
 		fileMenu.add(bar.createJMenuItem("file", "exit", "", handler));
 		
-		this.setJMenuBar(bar);
 	}
 	
 	private void createEditMenu(MenuBar bar, ClickHandler handler) {
+		
 		JMenu editMenu = bar.createJMenu("menuBar.edit");
 		bar.add(editMenu);
-		
-		// test
 		
 		editMenu.add(bar.createJMenuItem("edit", "newRow", "NewRow.gif", handler));
 		editMenu.addSeparator();
@@ -86,6 +95,29 @@ public class App extends JFrame
 	}
 	
 	private void createHelpMenu(MenuBar bar, ClickHandler handler) {
+		
+	}
+	
+	/**
+	 * Creates the toolbar including all of its contents.
+	 * 
+	 * @param bar ToolBar object which contains all the toolbar buttons.
+	 * @param handler private ClickHandler object which manages the event handlers.
+	 */
+	private void createToolbar(ToolBar bar, ClickHandler handler) {
+		
+		bar.makeButton("New.gif", "newFile", handler);
+		bar.makeButton("OpenDoc.gif", "openFile", handler);
+		bar.makeButton("Save.gif", "saveFile", handler);
+		bar.addSeparator();
+		bar.makeButton("ExecuteProject.gif", "generate", handler);
+		bar.makeButton("SaveJava.gif", "saveBin", handler);
+		bar.addSeparator();
+		bar.makeButton("NewRow.gif", "newRow", handler);
+		bar.makeButton("MoveRowUp.gif", "moveRowUp", handler);
+		bar.makeButton("MoveRowDown.gif", "moveRowDown", handler);
+		bar.addSeparator();
+		bar.makeButton("Help.gif", "help", handler);
 		
 	}
 	
@@ -136,11 +168,13 @@ public class App extends JFrame
 				case "moveRowUp":
 					data.moveComponentUp(table.getSelectedRow());
 					break;
+					
 				case "moveRowDown":
 					data.moveComponentDown(table.getSelectedRow());
 					break;
+					
 				default:
-					JOptionPane.showMessageDialog(null, cmd);
+					System.out.println(cmd);
 					break;
 			}
 		}
