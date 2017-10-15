@@ -108,6 +108,10 @@ public class GBLEDataModel extends AbstractTableModel {
 	    }
 	}
 	
+	public void test() {
+		fireTableStructureChanged();
+	}
+	
 	/**
 	 * Changes the component type by creating a new instance
 	 * of the component corresponding to the given string value, in 

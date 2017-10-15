@@ -3,7 +3,11 @@ package no.ntnu.imt3281.project1;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -11,6 +15,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.TableModel;
 
 /**
  * App class serves as a container for the whole application and also contains
@@ -44,6 +51,7 @@ public class App extends JFrame
 	/**
 	 * Calls the functions which creates the surrounding menu- and toolbars.
 	 * 
+	 * @see 
 	 */
 	private void createAndShowBars() {
 		
@@ -128,17 +136,20 @@ public class App extends JFrame
 	private void createAndShowTable() {
 		data = new GBLEDataModel();
 		table = new JTable(data);
-		
-	    this.add(new JScrollPane(table));
-		
-		String[] columnHeaders = new String[data.getNumColumns()];
-		
-		for(int ii = 0; ii < data.getNumColumns(); ++ii) {
-			columnHeaders[ii] = data.getColumnName(ii);
-	//		table.getColumnModel().getColumn(ii).setPreferredWidth(20);
-		}		
+	    add(new JScrollPane(table));
+	    
+	    makeEditableTableColumns(table, data);
 	}
 	
+	/**
+	 * Makes each table cell interactive and editable.
+	 * 
+	 */
+	private void makeEditableTableColumns(JTable table, GBLEDataModel data) {
+		String[] componentTypes = { "JLabel", "JButton", "JTextField", "JTextArea" };
+		JComboBox<String> comboBox0 = new JComboBox<String>(componentTypes);
+		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox0));
+	}
 
 	
 	/**
@@ -149,6 +160,27 @@ public class App extends JFrame
     public static void main( String[] args )
     {
     	App window = new App();
+    }
+    
+    
+    
+    private class TableHandler implements TableModelListener {
+
+		@Override
+		public void tableChanged(TableModelEvent e) {
+			int row = e.getFirstRow();
+			int col = e.getColumn();
+			TableModel model = (TableModel)e.getSource();
+			Object cellData = model.getValueAt(row, col);
+			
+			if(col == 0) {
+				// data.setValueAt(Object stringVal, int rowIndex, int 0)
+			}
+			
+		}
+
+
+    	
     }
     
 	private class ClickHandler implements ActionListener {
