@@ -13,17 +13,9 @@ import java.util.ResourceBundle;
  */
 public class I18N {
 	
-	private static I18N i18n = new I18N();
-	private static Locale locale;
-	private static ResourceBundle bundle;
-	
-	/**
-	 * No argument constructor
-	 */
-	private I18N() {
-		locale = Locale.getDefault();
-		I18N.bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
-	}
+	private static Locale locale = Locale.ENGLISH; // Uncomment for English language (during development)
+	//private static Locale locale = Locale.getDefault(); // Uncomment for Norwegian language (during development)
+	private static ResourceBundle bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
 	
 	/**
 	 * 
