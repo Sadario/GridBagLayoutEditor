@@ -178,22 +178,35 @@ public class App extends JFrame
 		JComboBox<String> comboBox0 = new JComboBox<String>(componentTypes);
 		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox0));
 		
-		String[] iconNames = { 	"anchor_center", "anchor_north", 
-								"anchor_northeast", "anchor_northwest", 
-								"anchor_south", "anchor_southwest", 
-								"anchor_southeast" };
+		String[] anchorIconNames = { 	"anchor_center", "anchor_north", 
+				"anchor_northeast", "anchor_northwest", 
+				"anchor_south", "anchor_southwest", 
+				"anchor_southeast" };
+		createIconComboBox(anchorIconNames, 7);
+		
+		String[] fillIconNames = {	"skaler_begge", "skaler_horisontalt",
+				"skaler_ingen", "skaler_vertikalt" };
+		createIconComboBox(fillIconNames, 8);
+	}
+	
+	/**
+	 * Makes JComboBoxes in specific columns in the JTable 
+	 * 
+	 * @param iconNames String-array with the icon-names (excluding path and *.filetype
+	 * @param col the column to add the combobox to
+	 */
+	public void createIconComboBox(String[] iconNames, int col) {
 		Vector<Icon> icons = new Vector<Icon>();
 		
 		for (String iconName : iconNames) {
-			String path = "graphics/" + iconName + ".png";
-			Icon icon = new ImageIcon(getClass().getResource(path));
+			String fullIconPath = "graphics/" + iconName + ".png";
+			Icon icon = new ImageIcon(getClass().getResource(fullIconPath));
 			icons.add(icon);
 		}
-
-		JComboBox<Icon> comboBox7 = new JComboBox<Icon>(icons);
-		table.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(comboBox7));
+		JComboBox<Icon> comboBox = new JComboBox<Icon>(icons);
+		table.getColumnModel().getColumn(col).setCellEditor(new DefaultCellEditor(comboBox));
 	}
-
+		
 	/**
 	 * Clears the table of components.
 	 * 
