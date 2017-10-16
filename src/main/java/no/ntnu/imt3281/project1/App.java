@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
@@ -178,6 +179,13 @@ public class App extends JFrame
 		JComboBox<String> comboBox0 = new JComboBox<String>(componentTypes);
 		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox0));
 		
+	//	AnchorFillRenderer anchorFillRenderer = new AnchorFillRenderer();                             
+	//	JComboBox<Integer> comboBox7 = new JComboBox<Integer>(anchorFillRenderer.getAnchorValues());
+	//	comboBox7.setRenderer((ListCellRenderer<>) anchorFillRenderer);
+		
+		
+		
+		
 		String[] iconNames = { 	"anchor_center", "anchor_north", 
 								"anchor_northeast", "anchor_northwest", 
 								"anchor_south", "anchor_southwest", 
@@ -192,6 +200,7 @@ public class App extends JFrame
 
 		JComboBox<Icon> comboBox7 = new JComboBox<Icon>(icons);
 		table.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(comboBox7));
+		
 	}
 
 	/**

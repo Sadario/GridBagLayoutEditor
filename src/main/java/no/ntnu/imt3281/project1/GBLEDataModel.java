@@ -114,15 +114,15 @@ public class GBLEDataModel extends AbstractTableModel {
 	public void setValueAt(Object stringVal, int rowIndex, int columnIndex) {
 		BaseComponent temp = components.get(rowIndex);   
 		switch(columnIndex) {
-		    case 0: editComponentAttributes(temp, stringVal.toString(), rowIndex);
-		    case 1: 
-		    case 2:                  
-		    case 3:                       
-		    case 4:                
-		    case 5:  
-		    case 6:  
-		    case 7: 
-		    case 8:   
+		    case 0: editComponentAttributes(temp, stringVal.toString(), rowIndex); break;
+		    case 1: temp.setVariableName(stringVal.toString());                    break;
+		    case 2: temp.setText(stringVal.toString());                            break;
+		    case 3: temp.setRow(Integer.parseInt(stringVal.toString()));           break;
+		    case 4: temp.setCol(Integer.parseInt(stringVal.toString()));           break;
+		    case 5: temp.setRows(Integer.parseInt(stringVal.toString()));          break;
+		    case 6: temp.setCols(Integer.parseInt(stringVal.toString()));          break;
+		    case 7: temp.setAnchor(Integer.parseInt(stringVal.toString()));        break;
+		    case 8: temp.setFill(Integer.parseInt(stringVal.toString()));          break;
 		    default: break;
 	    }
 	}
