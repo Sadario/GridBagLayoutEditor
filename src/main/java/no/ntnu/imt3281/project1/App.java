@@ -144,9 +144,9 @@ public class App extends JFrame
 		table = new JTable(data);
 		add(new JScrollPane(table));
 	    
-	    makeTableColumnsEditable(table, data);
+	    makeSpecialColumns(table, data);
 	    
-	    for (int i = 0; i <= 8; i++) {		// Kortere kode. Behov for å endre bredde på hver enkelt?
+	    for (int i = 0; i <= 8; i++) {		// Kortere kode. Behov for å endre bredde på hver enkelt? 
 	    	table.getColumnModel().getColumn(i).setPreferredWidth(100);
 	    }
 	    /*
@@ -168,14 +168,38 @@ public class App extends JFrame
 	 * Makes each table cell interactive and editable.
 	 * 
 	 */
-	private void makeTableColumnsEditable(JTable table, GBLEDataModel data) {
+	private void makeSpecialColumns(JTable table, GBLEDataModel data) {
 		String[] componentTypes = { "JLabel", "JButton", "JTextField", "JTextArea" };
 		JComboBox<String> comboBox0 = new JComboBox<String>(componentTypes);
 		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox0));
 		
-		System.out.println("testing: makeTableColumnsEditable() done");
 	}
 
+	/**
+	 * Clears the table of components.
+	 * 
+	 */
+	private void clear() {
+		data.clear();
+	}
+	
+	/**
+	 * Moves a component up or down dependent on the given direction.
+	 * 
+	 * @param direction Integer value -1 for up, +1 for down.
+	 */
+	private void moveRow(int direction) {
+		int currentRow = table.getSelectedRow();
+		
+		if(direction == -1 && currentRow > 0) {
+			data.moveComponentUp(table.getSelectedRow());
+			table.getSelectionModel().setSelectionInterval(currentRow-1, currentRow-1);
+		} else if (direction == 1) {
+			data.moveComponentDown(table.getSelectedRow());
+			table.getSelectionModel().setSelectionInterval(currentRow+1, currentRow+1);
+		}
+	}
+	
 	
 	/**
 	 * 
@@ -215,7 +239,7 @@ public class App extends JFrame
 			
 			switch (cmd) {
 				case "newFile":
-					data.clear();
+					clear();
 					break;
 				
 				case "newRow":
@@ -223,11 +247,11 @@ public class App extends JFrame
 					break;
 
 				case "moveRowUp":
-					data.moveComponentUp(table.getSelectedRow());
+					moveRow(-1);
 					break;
 					
 				case "moveRowDown":
-					data.moveComponentDown(table.getSelectedRow());
+					moveRow(1);
 					break;
 					
 				default:

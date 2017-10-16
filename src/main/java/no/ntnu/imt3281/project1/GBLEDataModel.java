@@ -32,6 +32,25 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * 		INHERITED METHODS:
 	 */
 
+	/**
+	 * The no-argument GBLEDataModel constructor
+	 * generates the arrays and sets default values.
+	 * It also sets the column-names for the table, according to locale-settings.
+	 */
+	public GBLEDataModel() {
+		components = new Vector<BaseComponent>();
+		columnNames = new String[] {
+				I18N.getString("columnName.type"),
+				I18N.getString("columnName.variablename"),
+				I18N.getString("columnName.text"),
+				I18N.getString("columnName.row"),
+				I18N.getString("columnName.column"),
+				I18N.getString("columnName.rows"),
+				I18N.getString("columnName.columns"),
+				I18N.getString("columnName.anchor"),
+				I18N.getString("columnName.fill")
+		};
+	}
 	
 	/**
 	 * Returns the number of rows in the table.
@@ -82,8 +101,8 @@ public class GBLEDataModel extends AbstractTableModel {
 	}
 	
 	/**
-	 * Calls editCompontentAttributes() for the component
-	 * found in the given rowIndex.
+	 * Calls editCompontentAttributes() for the component and attribute
+	 * found in the given rowIndex and columnIndex.
 	 * 
 	 * @param stringVal String value of the component type
 	 * @param rowIndex Integer value of the component's row index
@@ -95,8 +114,8 @@ public class GBLEDataModel extends AbstractTableModel {
 	public void setValueAt(Object stringVal, int rowIndex, int columnIndex) {
 		BaseComponent temp = components.get(rowIndex);   
 		switch(columnIndex) {
-		    case 0: editComponentAttributes(temp, stringVal.toString(), columnIndex);
-		    case 1:  
+		    case 0: editComponentAttributes(temp, stringVal.toString(), rowIndex);
+		    case 1: 
 		    case 2:                  
 		    case 3:                       
 		    case 4:                
@@ -117,13 +136,14 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * @param val String value of the component type.
 	 * @param index Integer value of the index in the BaseComponent Vector
 	 */
-	private void editComponentAttributes(BaseComponent comp, String val, int index) {
+	private void editComponentAttributes(BaseComponent comp, String val, int row) {
 		switch(val) {
-		case "JTextField": components.set(index, new TextField(comp)); break;
-		case "JTextArea":  components.set(index, new TextArea(comp));  break;
-		case "JLabel":     components.set(index, new Label(comp));     break;
-		case "JButton":    components.set(index, new Button(comp));    break;
+		case "JTextField": components.set(row, new TextField(comp)); break;
+		case "JTextArea":  components.set(row, new TextArea(comp));  break;
+		case "JLabel":     components.set(row, new Label(comp));     break;
+		case "JButton":    components.set(row, new Button(comp));    break;
 		}
+		
 	}
 	
 	/**
@@ -149,25 +169,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	/**
 	 * 		METHODS:
 	 */
-	/**
-	 * The no-argument GBLEDataModel constructor
-	 * generates the arrays and sets default values.
-	 * It also sets the column-names for the table, according to locale-settings.
-	 */
-	public GBLEDataModel() {
-		components = new Vector<BaseComponent>();
-		columnNames = new String[] {
-				I18N.getString("columnName.type"),
-				I18N.getString("columnName.variablename"),
-				I18N.getString("columnName.text"),
-				I18N.getString("columnName.row"),
-				I18N.getString("columnName.column"),
-				I18N.getString("columnName.rows"),
-				I18N.getString("columnName.columns"),
-				I18N.getString("columnName.anchor"),
-				I18N.getString("columnName.fill")
-		};
-	}
+
 	
 	/**
 	 * Returns the definitions to all objects in the Vector
@@ -189,56 +191,6 @@ public class GBLEDataModel extends AbstractTableModel {
 		return null;
 	}
 	
-	/**
-	 * 
-	 * 
-	 * @param os
-	 */
-	public void save(OutputStream os) {
-	 /* REVIEW
-	  * 
-	  * Dobbeltsjekk at filnavn/destinasjon er definert i argumentet
-	  * Exception må dirigeres et annet sted.
-     */
-		try {
-			ObjectOutputStream out = new ObjectOutputStream(os);  // Wrap the stream object, making it serialized
-			out.writeObject(components);                          // Write the object to the out stream
-		} catch(IOException e) {
-			System.err.println("A file writing error occured. " +
-		        "Check your write permissions and remaining disk space.");
-		}
-		
-	}
-
-	/**
-	 * 
-	 * @param is
-	 */
-	@SuppressWarnings("unchecked")
-	public void load(InputStream is) {
-		/**
-		 * REVIEW
-		 * Helt utrolig at testen gikk igjennom.
-		 * Vi må få en bedre forståelse for save(), load() og 
-		 * fikse de.
-		 */
-		try {
-			ObjectInputStream in = new ObjectInputStream(is);
-			components = (Vector<BaseComponent>) in.readObject();
-		} catch(IOException e) {
-			System.err.println("err");
-		} catch(ClassNotFoundException temp) { // Vet ikke hvorfor in.readObject(); krevde denne
-		}
-	}
-
-	/**
-	 * Removes all stored components.
-	 * 
-	 */
-	public void clear() {
-		components.clear();
-		fireTableDataChanged();
-	}
 
 	/**
 	 * Adds a component to the table.
@@ -310,4 +262,56 @@ public class GBLEDataModel extends AbstractTableModel {
 	public boolean isCellEditable(int row, int col) {
 		return true;
 	}
+	
+	/**
+	 * 
+	 * 
+	 * @param os
+	 */
+	public void save(OutputStream os) {
+	 /* REVIEW
+	  * 
+	  * Dobbeltsjekk at filnavn/destinasjon er definert i argumentet
+	  * Exception må dirigeres et annet sted.
+     */
+		try {
+			ObjectOutputStream out = new ObjectOutputStream(os);  // Wrap the stream object, making it serialized
+			out.writeObject(components);                          // Write the object to the out stream
+		} catch(IOException e) {
+			System.err.println("A file writing error occured. " +
+		        "Check your write permissions and remaining disk space.");
+		}
+		
+	}
+
+	/**
+	 * 
+	 * @param is
+	 */
+	@SuppressWarnings("unchecked")
+	public void load(InputStream is) {
+		/**
+		 * REVIEW
+		 * Helt utrolig at testen gikk igjennom.
+		 * Vi må få en bedre forståelse for save(), load() og 
+		 * fikse de.
+		 */
+		try {
+			ObjectInputStream in = new ObjectInputStream(is);
+			components = (Vector<BaseComponent>) in.readObject();
+		} catch(IOException e) {
+			System.err.println("err");
+		} catch(ClassNotFoundException temp) { // Vet ikke hvorfor in.readObject(); krevde denne
+		}
+	}
+
+	/**
+	 * Removes all stored components.
+	 * 
+	 */
+	public void clear() {
+		components.clear();
+		fireTableDataChanged();
+	}
+
 }
