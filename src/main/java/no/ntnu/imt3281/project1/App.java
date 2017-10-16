@@ -183,15 +183,14 @@ public class App extends JFrame
 								"anchor_south", "anchor_southwest", 
 								"anchor_southeast" };
 		Vector<Icon> icons = new Vector<Icon>();
-		JComboBox<Icon> comboBox7 = null;
-
+		
 		for (String iconName : iconNames) {
 			String path = "graphics/" + iconName + ".png";
 			Icon icon = new ImageIcon(getClass().getResource(path));
 			icons.add(icon);
 		}
 
-		comboBox7 = new JComboBox<Icon>(icons);
+		JComboBox<Icon> comboBox7 = new JComboBox<Icon>(icons);
 		table.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(comboBox7));
 	}
 

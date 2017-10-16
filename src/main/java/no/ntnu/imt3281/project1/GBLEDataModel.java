@@ -312,6 +312,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 */
 	public void clear() {
 		components.clear();
+		BaseComponent.resetNextComponentID();
 		fireTableDataChanged();
 	}
 

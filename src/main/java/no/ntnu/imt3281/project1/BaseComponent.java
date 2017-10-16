@@ -243,4 +243,8 @@ public class BaseComponent implements Serializable {
 				"\t\tlayout.setConstraints(" + getVariableName() + ", gbc);\n" +
 				"\t\tadd(" + getVariableName() + ");\n";
 	}
+	
+	public static void resetNextComponentID() {
+		nextComponentID = 0;
+	}
 }
