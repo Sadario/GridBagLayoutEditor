@@ -5,8 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -30,6 +33,8 @@ import javax.swing.table.TableModel;
  */
 public class App extends JFrame
 {
+	private static final int UP = -1;
+	private static final int DOWN = 1;
 	private GBLEDataModel data;
 	private JTable table;
 	
@@ -173,6 +178,21 @@ public class App extends JFrame
 		JComboBox<String> comboBox0 = new JComboBox<String>(componentTypes);
 		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox0));
 		
+		String[] iconNames = { 	"anchor_center", "anchor_north", 
+								"anchor_northeast", "anchor_northwest", 
+								"anchor_south", "anchor_southwest", 
+								"anchor_southeast" };
+		Vector<Icon> icons = new Vector<Icon>();
+		JComboBox<Icon> comboBox7 = null;
+
+		for (String iconName : iconNames) {
+			String path = "graphics/" + iconName + ".png";
+			Icon icon = new ImageIcon(getClass().getResource(path));
+			icons.add(icon);
+		}
+
+		comboBox7 = new JComboBox<Icon>(icons);
+		table.getColumnModel().getColumn(7).setCellEditor(new DefaultCellEditor(comboBox7));
 	}
 
 	/**
@@ -186,15 +206,17 @@ public class App extends JFrame
 	/**
 	 * Moves a component up or down dependent on the given direction.
 	 * 
-	 * @param direction Integer value -1 for up, +1 for down.
+	 * @param direction Integer value -1 (constant UP) for up, +1 for down (constant DOWN).
 	 */
 	private void moveRow(int direction) {
 		int currentRow = table.getSelectedRow();
 		
-		if(direction == -1 && currentRow > 0) {
+		if(direction == UP && currentRow > 0) {
 			data.moveComponentUp(table.getSelectedRow());
 			table.getSelectionModel().setSelectionInterval(currentRow-1, currentRow-1);
-		} else if (direction == 1) {
+											// La til en sjekk, for å unngå
+											// flytting av nederste rad nedover:
+		} else if (direction == DOWN && currentRow != data.getRowCount()-1) {
 			data.moveComponentDown(table.getSelectedRow());
 			table.getSelectionModel().setSelectionInterval(currentRow+1, currentRow+1);
 		}
@@ -247,11 +269,11 @@ public class App extends JFrame
 					break;
 
 				case "moveRowUp":
-					moveRow(-1);
+					moveRow(UP);
 					break;
 					
 				case "moveRowDown":
-					moveRow(1);
+					moveRow(DOWN);
 					break;
 					
 				default:

@@ -180,9 +180,9 @@ public class GBLEDataModel extends AbstractTableModel {
 	public String getDefinitions() {
 		StringBuilder defs = new StringBuilder();
 		
-		for(BaseComponent obj : components) {
+		for (BaseComponent obj : components) {
 			defs.append(obj.getDefinition());
-			}
+		}
 		return defs.toString();
 	}
 	
@@ -302,6 +302,7 @@ public class GBLEDataModel extends AbstractTableModel {
 		} catch(IOException e) {
 			System.err.println("err");
 		} catch(ClassNotFoundException temp) { // Vet ikke hvorfor in.readObject(); krevde denne
+			System.err.println(temp.getMessage());
 		}
 	}
 
