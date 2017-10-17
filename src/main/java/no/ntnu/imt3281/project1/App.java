@@ -287,7 +287,7 @@ public class App extends JFrame {
 	 * choice.
 	 * 
 	 */
-	private void openFile() {
+	private void load() {
 		
 	}
 	
@@ -357,7 +357,7 @@ public class App extends JFrame {
 					break;
 				
 				case "open":
-					openFile();
+					load();
 					break;
 					
 				default:
