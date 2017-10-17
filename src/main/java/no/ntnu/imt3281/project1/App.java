@@ -265,7 +265,31 @@ public class App extends JFrame {
 		JOptionPane.showMessageDialog(this, "Not yet implemented");
 	}
 	
+	/**
+	 * Saves the current GridBagLayout file to the directory where the
+	 * application lies.
+	 */
+	private void save() {
+		
+	}
 	
+	/**
+	 * Saves the current GridBagLayout file to a directory of the user's
+	 * choice with a filename and exention of the user's choice.
+	 * 
+	 */
+	private void saveAs() {
+		
+	}
+	
+	/**
+	 * Loads an existing GridBagLayout file from a directory of the user's
+	 * choice.
+	 * 
+	 */
+	private void openFile() {
+		
+	}
 	
 	/**
 	 * 
@@ -322,6 +346,18 @@ public class App extends JFrame {
 					
 				case "help":
 					showHelpDialog();
+					break;
+					
+				case "save":
+					save();
+					break;
+					
+				case "saveAs":
+					saveAs();
+					break;
+				
+				case "open":
+					openFile();
 					break;
 					
 				default:
