@@ -16,3 +16,5 @@ After the repository is forked the one member on the group that forked the repos
 # Working on the project
 
 Import the maven project to your favorite IDE, then add the IDE specific files to .gitignore (run "git status" in the project folder to see the files to add to .gitignore. Add the .gitignore file as well, different group members will have different content in this file.)
+
+# [Wiki](https://bitbucket.org/thomasgg/imt3281-project1-h2017/wiki/Home)
