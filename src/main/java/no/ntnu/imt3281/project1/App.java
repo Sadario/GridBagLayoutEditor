@@ -35,20 +35,19 @@ import javax.swing.table.TableModel;
  * @author sadario
  *
  */
-public class App extends JFrame
-{
+public class App extends JFrame {
 	private static final int UP = -1;
 	private static final int DOWN = 1;
 	private GBLEDataModel data;
 	private JTable table;
 	
-	Integer[] fillConstraints = {GridBagConstraints.NONE,
+	private Integer[] fillConstraints = {GridBagConstraints.NONE,
 			GridBagConstraints.HORIZONTAL,
 			GridBagConstraints.VERTICAL,
 			GridBagConstraints.BOTH 
 	};
 	
-	Integer[] anchorConstraints = { GridBagConstraints.CENTER, 
+	private Integer[] anchorConstraints = { GridBagConstraints.CENTER, 
 			GridBagConstraints.EAST,
 			GridBagConstraints.NORTH,
 			GridBagConstraints.NORTHEAST,
@@ -134,10 +133,21 @@ public class App extends JFrame
 		
 	}
 	
+	/**
+	 * Creates the help menu and attaches appropriate event handlers.
+	 * 
+	 * @param bar Menu bar object which contains all the menu items.
+	 * @param handler private clickHandler object which manages the event handlers.
+	 */
 	private void createHelpMenu(MenuBar bar, ClickHandler handler) {
+		JMenu helpMenu = bar.createJMenu("menuBar.help");
+		bar.add(helpMenu);
 		
+		helpMenu.add(bar.createJMenuItem("help", "help", "Help.gif", handler));
+		helpMenu.addSeparator();
+		helpMenu.add(bar.createJMenuItem("help", "about", "", handler));
 	}
-	
+
 	/**
 	 * Creates the toolbar including all of its contents.
 	 * 
@@ -170,11 +180,12 @@ public class App extends JFrame
 		table = new JTable(data);
 		add(new JScrollPane(table));
 	    
-	    makeSpecialColumns(table, data);
+	    makeSpecialColumns(table);
 	    
 	    for (int i = 0; i <= 8; i++) {		// Kortere kode. Behov for å endre bredde på hver enkelt? 
 	    	table.getColumnModel().getColumn(i).setPreferredWidth(100);
 	    }
+	    // Thomas kommentar: Tanken var forskjellige bredder
 	    /*
 	    table.getColumnModel().getColumn(0).setPreferredWidth(100);
 	    table.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -191,10 +202,11 @@ public class App extends JFrame
 	}
 	
 	/**
-	 * Makes each table cell interactive and editable.
+	 * Creates cell-specific renderer for columns 0, 7 and 8.
 	 * 
+	 * @param table JTable object containing the table
 	 */
-	private void makeSpecialColumns(JTable table, GBLEDataModel data) {
+	private void makeSpecialColumns(JTable table) {
 		String[] componentTypes = { "JLabel", "JButton", "JTextField", "JTextArea" };
 		JComboBox<String> comboBox0 = new JComboBox<String>(componentTypes);
 		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox0));
@@ -244,6 +256,15 @@ public class App extends JFrame
 			table.getSelectionModel().setSelectionInterval(currentRow+1, currentRow+1);
 		}
 	}
+	
+	/**
+	 * Shows a centered message dialog.
+	 * 
+	 */
+	private void showHelpDialog() {
+		JOptionPane.showMessageDialog(this, "Not yet implemented");
+	}
+	
 	
 	
 	/**
@@ -297,6 +318,10 @@ public class App extends JFrame
 					
 				case "moveRowDown":
 					moveRow(DOWN);
+					break;
+					
+				case "help":
+					showHelpDialog();
 					break;
 					
 				default:

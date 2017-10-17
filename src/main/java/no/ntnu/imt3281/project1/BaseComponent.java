@@ -244,6 +244,9 @@ public class BaseComponent implements Serializable {
 				"\t\tadd(" + getVariableName() + ");\n";
 	}
 	
+	/**
+	 * Resets the component ID to 0.
+	 */
 	public static void resetNextComponentID() {
 		nextComponentID = 0;
 	}

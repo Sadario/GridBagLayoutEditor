@@ -12,7 +12,6 @@ import java.nio.file.Files;
 import java.util.ResourceBundle;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -125,6 +124,7 @@ public class GBLEDataModel extends AbstractTableModel {
 		    case 7: temp.setAnchor(Integer.parseInt(stringVal.toString()));        break;
 		    case 8: temp.setFill(Integer.parseInt(stringVal.toString()));          break;
 		    default: break;
+		    
 	    }
 	}
 	
@@ -192,7 +192,6 @@ public class GBLEDataModel extends AbstractTableModel {
 		return null;
 	}
 	
-
 	/**
 	 * Adds a component to the table.
 	 * 
