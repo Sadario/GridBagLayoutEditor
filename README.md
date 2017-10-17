@@ -1,7 +1,6 @@
 # Create your working copy
 
 Each group will create one fork of the project.
-![Skjermbilde 2017-08-24 kl. 09.55.57.png](https://bitbucket.org/repo/647Ago9/images/3930476171-Skjermbilde%202017-08-24%20kl.%2009.55.57.png)
 
 
 Make sure to check off the Access level so that this will be "This is a private repository" and "Permissions" to "Inherit repository user/group permissions". This will ensure that no one else gets access to your work put I will still be able to access it to grade it later on.
@@ -16,3 +15,5 @@ After the repository is forked the one member on the group that forked the repos
 # Working on the project
 
 Import the maven project to your favorite IDE, then add the IDE specific files to .gitignore (run "git status" in the project folder to see the files to add to .gitignore. Add the .gitignore file as well, different group members will have different content in this file.)
+
+# [Wiki](https://bitbucket.org/thomasgg/imt3281-project1-h2017/wiki/Home)
