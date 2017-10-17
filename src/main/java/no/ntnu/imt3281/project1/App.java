@@ -1,11 +1,14 @@
 package no.ntnu.imt3281.project1;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -27,10 +30,14 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import javax.swing.border.BevelBorder;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -47,6 +54,7 @@ import javax.swing.table.TableModel;
 public class App extends JFrame {
 	private static final int UP = -1;
 	private static final int DOWN = 1;
+	private static JTextField statusBar;
 	private boolean isAlreadySaved;
 	private File saveFile;
 	private GBLEDataModel data;
@@ -80,12 +88,91 @@ public class App extends JFrame {
 		
 		createAndShowBars();
 		createAndShowTable();
+		createRightClickContextMenu();
+		add(statusBar, BorderLayout.SOUTH);
 		
 		setSize(800, 400);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		
+		setStatusText("Program initialized...");
 	}
 
+	/**
+	 * See {@link https://stackoverflow.com/questions/3558293/java-swing-jtable-right-click-menu-how-do-i-get-it-to-select-aka-highlight-t}
+	 */
+	private void createRightClickContextMenu() {
+		JPopupMenu popup = createPopupMenu();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				int row = table.rowAtPoint(e.getPoint());
+				if (row >= 0 && row < table.getRowCount()) {
+					table.setRowSelectionInterval(row,  row);
+				} else {
+					table.clearSelection();
+				}
+				
+				int rowIndex = table.getSelectedRow();
+				if (rowIndex < 0) return;
+				if (e.isPopupTrigger() && e.getComponent() instanceof JTable) {
+					popup.show(e.getComponent(), e.getX(), e.getY());
+				}
+			}
+		});
+	}
+	
+	private JPopupMenu createPopupMenu() {
+		JPopupMenu menu = new JPopupMenu();
+		ActionListener menuListener = new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				switch (event.getActionCommand()) {
+				case "getSpecialEditor":
+					JOptionPane.showMessageDialog(null, "Not yet implemented! #TODO.getSpecialEditor");
+					break;
+				case "deleteItem":
+					data.removeComponent(table.getSelectedRow());
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		JMenuItem item;
+		menu.add(item = new JMenuItem(I18N.getString("popupMenu.specialEditor")));
+		item.setActionCommand("getSpecialEditor");
+		item.setHorizontalTextPosition(JMenuItem.RIGHT);
+		item.addActionListener(menuListener);
+		menu.add(item = new JMenuItem(I18N.getString("popupMenu.deleteItem")));
+		item.setActionCommand("deleteItem");
+		item.setHorizontalTextPosition(JMenuItem.RIGHT);
+		item.addActionListener(menuListener);
+		menu.setLabel("LabelTest");
+		menu.setBorder(new BevelBorder(BevelBorder.RAISED));
+		menu.addPopupMenuListener(new PopupListener());
+		table.setComponentPopupMenu(menu);
+		return menu;				
+	}
+	
+	class PopupListener implements PopupMenuListener {
+
+		@Override
+		public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+			
+		}
+
+		@Override
+		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+			
+		}
+
+		@Override
+		public void popupMenuCanceled(PopupMenuEvent e) {
+			
+		}
+		
+	}
+	
 	/**
 	 * Calls the functions which creates the surrounding menu- and toolbars.
 	 * 
@@ -104,11 +191,7 @@ public class App extends JFrame {
 		ToolBar toolBar = new ToolBar(handler);
 		createToolbar(toolBar, handler);
 		add(toolBar, BorderLayout.NORTH);
-		
-		JTextField statusBar = new JTextField("statusBar - TestText");
-		statusBar.setEditable(false);
-		statusBar.setHighlighter(null);
-		add(statusBar, BorderLayout.SOUTH);
+		createStatusBar();
 	}
 	
 	/**
@@ -169,8 +252,8 @@ public class App extends JFrame {
 	private void createToolbar(ToolBar bar, ClickHandler handler) {
 		
 		bar.makeButton("New.gif", "newFile", handler);
-		bar.makeButton("OpenDoc.gif", "openFile", handler);
-		bar.makeButton("Save.gif", "saveFile", handler);
+		bar.makeButton("OpenDoc.gif", "open", handler);
+		bar.makeButton("Save.gif", "save", handler);
 		bar.addSeparator();
 		bar.makeButton("ExecuteProject.gif", "generate", handler);
 		bar.makeButton("SaveJava.gif", "saveBin", handler);
@@ -190,8 +273,10 @@ public class App extends JFrame {
 	private void createAndShowTable() {
 		data = new GBLEDataModel();
 		table = new JTable(data);
-		add(new JScrollPane(table));
-	    
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.getViewport().setBackground(Color.WHITE);		// Ellers ser tabellen stygg ut, om vi fjerner komponenter
+		add(scrollPane);
+		createStatusBar();
 	    makeSpecialColumns(table);
 	    
 	    for (int i = 0; i <= 8; i++) {		// Kortere kode. Behov for å endre bredde på hver enkelt? 
@@ -442,5 +527,15 @@ public class App extends JFrame {
 					break;
 			}
 		}
+	}
+	
+	private static void createStatusBar() {
+		statusBar = new JTextField();
+		statusBar.setEditable(false);
+		statusBar.setHighlighter(null);
+	}
+	
+	private static void setStatusText(String newText) {
+		statusBar.setText(newText);
 	}
 }

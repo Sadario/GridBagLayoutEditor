@@ -199,8 +199,8 @@ public class GBLEDataModel extends AbstractTableModel {
 	 */
 	public void addComponent(BaseComponent component) {
 		components.add(component);
-		fireTableRowsInserted(components.size(), components.size());
-	}
+		fireTableRowsInserted(0, components.size());	// Må oppdatere fra første til siste komponent
+	}													// for at fjerning, deretter innlegging skal oppføre seg normalt.
 
 	/**
 	 * Removes the component at the given position.
@@ -209,6 +209,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 */
 	public void removeComponent(int position) {
 		components.removeElementAt(position);
+		fireTableRowsUpdated(position, components.size());
 	}
 
 	/**

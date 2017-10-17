@@ -22,7 +22,7 @@ import javax.swing.table.TableCellRenderer;
 
 public class AnchorFillRenderer extends JLabel implements TableCellRenderer {
 	
-	private Map<Integer, Icon> icons;
+	private transient Map<Integer, Icon> icons;
 	
 	public AnchorFillRenderer() {
 		setOpaque(true);
