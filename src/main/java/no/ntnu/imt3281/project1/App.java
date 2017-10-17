@@ -6,6 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -14,6 +19,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -38,6 +44,8 @@ import javax.swing.table.TableModel;
 public class App extends JFrame {
 	private static final int UP = -1;
 	private static final int DOWN = 1;
+	private boolean isAlreadySaved;
+	private File saveFile;
 	private GBLEDataModel data;
 	private JTable table;
 	
@@ -268,18 +276,55 @@ public class App extends JFrame {
 	/**
 	 * Saves the current GridBagLayout file to the directory where the
 	 * application lies.
+	 * 
 	 */
 	private void save() {
-		
+		if(isAlreadySaved) {
+			try {
+				FileOutputStream fos = new FileOutputStream(saveFile);
+				data.save(fos);
+				fos.close();
+			} catch (IOException e) {
+				
+			}
+		} else {
+			saveAs();
+		}
 	}
+	
 	
 	/**
 	 * Saves the current GridBagLayout file to a directory of the user's
-	 * choice with a filename and exention of the user's choice.
+	 * choice with a filename and extension of the user's choice.
 	 * 
 	 */
 	private void saveAs() {
+		// Ikke ferdig
+		File saveFile = getFileSaveLocation();
 		
+		try {
+			FileOutputStream fos = new FileOutputStream(saveFile);
+			data.save(fos);
+			fos.close();
+		} catch (IOException e) {
+			
+		}
+	}
+	
+	/**
+	 * Gets the path to the chosen folder or file.
+	 * 
+	 * @return Path Object of the selected folder/file.
+	 */
+	private File getFileSaveLocation() {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		int res = fileChooser.showOpenDialog(this);
+		if(res == JFileChooser.CANCEL_OPTION) {
+			System.exit(1);
+		}
+		
+		return fileChooser.getSelectedFile();		
 	}
 	
 	/**
