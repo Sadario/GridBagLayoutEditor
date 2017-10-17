@@ -1,10 +1,13 @@
 package no.ntnu.imt3281.project1;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
@@ -39,6 +42,23 @@ public class App extends JFrame
 	private GBLEDataModel data;
 	private JTable table;
 	
+	Integer[] fillConstraints = {GridBagConstraints.NONE,
+			GridBagConstraints.HORIZONTAL,
+			GridBagConstraints.VERTICAL,
+			GridBagConstraints.BOTH 
+	};
+	
+	Integer[] anchorConstraints = { GridBagConstraints.CENTER, 
+			GridBagConstraints.EAST,
+			GridBagConstraints.NORTH,
+			GridBagConstraints.NORTHEAST,
+			GridBagConstraints.NORTHWEST,
+			GridBagConstraints.WEST,
+			GridBagConstraints.SOUTH,
+			GridBagConstraints.SOUTHEAST,
+			GridBagConstraints.SOUTHWEST
+	};
+	
 	/**
 	 * Constructor
 	 * 
@@ -54,7 +74,7 @@ public class App extends JFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
-	
+
 	/**
 	 * Calls the functions which creates the surrounding menu- and toolbars.
 	 * 
@@ -178,41 +198,24 @@ public class App extends JFrame
 		String[] componentTypes = { "JLabel", "JButton", "JTextField", "JTextArea" };
 		JComboBox<String> comboBox0 = new JComboBox<String>(componentTypes);
 		table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(comboBox0));
-		
+		createIconComboBox(anchorConstraints, 7);
+		table.getColumnModel().getColumn(7).setCellRenderer(new AnchorFillRenderer());
+		table.getColumnModel().getColumn(8).setCellRenderer(new AnchorFillRenderer());
 
-//	AnchorFillRenderer anchorFillRenderer = new AnchorFillRenderer();                             
-//	JComboBox<Integer> comboBox7 = new JComboBox<Integer>(anchorFillRenderer.getAnchorValues());
-//	comboBox7.setRenderer((ListCellRenderer<>) anchorFillRenderer);
 
-		String[] anchorIconNames = { 	"anchor_center", "anchor_north", 
-				"anchor_northeast", "anchor_northwest", 
-				"anchor_south", "anchor_southwest", 
-				"anchor_southeast" };
-		createIconComboBox(anchorIconNames, 7);
-		
-		String[] fillIconNames = {	"skaler_begge", "skaler_horisontalt",
-				"skaler_ingen", "skaler_vertikalt" };
-		createIconComboBox(fillIconNames, 8);
+		createIconComboBox(fillConstraints, 8);
 	}
 	
 	/**
 	 * Makes JComboBoxes in specific columns in the JTable 
 	 * 
-	 * @param iconNames String-array with the icon-names (excluding path and *.filetype
+	 * @param iconConstraints Integer-array, corresponding to GridBagConstraints
 	 * @param col the column to add the combobox to
 	 */
-	public void createIconComboBox(String[] iconNames, int col) {
-		Vector<Icon> icons = new Vector<Icon>();
-		
-		for (String iconName : iconNames) {
-			String fullIconPath = "graphics/" + iconName + ".png";
-			Icon icon = new ImageIcon(getClass().getResource(fullIconPath));
-			icons.add(icon);
-		}
-
-		JComboBox<Icon> comboBox = new JComboBox<Icon>(icons);
+	public void createIconComboBox(Integer[] iconConstraints, int col) {
+		JComboBox<Integer> comboBox = new JComboBox<Integer>(iconConstraints);
+		comboBox.setRenderer(new IconListRenderer());
 		table.getColumnModel().getColumn(col).setCellEditor(new DefaultCellEditor(comboBox));
-
 	}
 		
 	/**

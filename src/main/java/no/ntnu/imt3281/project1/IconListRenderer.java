@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package no.ntnu.imt3281.project1;
 
 import java.awt.Component;
@@ -5,28 +8,25 @@ import java.awt.GridBagConstraints;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.ListCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
-/** 
- * Renders icons on columns 7 and 8
+/**
+ * Renders icons in JComboBoxes in column 7 and 8
  * @author sadario
  * @author thomasgg
  */
+public class IconListRenderer extends DefaultListCellRenderer {
+	
+	private HashMap<Integer, Icon> icons;
 
-public class AnchorFillRenderer extends JLabel implements TableCellRenderer {
-	
-	private Map<Integer, Icon> icons;
-	
-	public AnchorFillRenderer() {
-		setOpaque(true);
-		
+	/**
+	 * Creates a HashMap, where GridBagConstraints refer to icons
+	 */
+	public IconListRenderer() {
 		icons = new HashMap<Integer, Icon>();
 		icons.put(GridBagConstraints.NORTH, new ImageIcon(getClass().getResource("graphics/anchor_north.png")));
 		icons.put(GridBagConstraints.NORTHEAST, new ImageIcon(getClass().getResource("graphics/anchor_northeast.png")));
@@ -42,25 +42,25 @@ public class AnchorFillRenderer extends JLabel implements TableCellRenderer {
 		icons.put(GridBagConstraints.VERTICAL, new ImageIcon(getClass().getResource("graphics/skaler_vertikalt.png")));
 		icons.put(GridBagConstraints.BOTH, new ImageIcon(getClass().getResource("graphics/skaler_begge.png")));
 	}
-	
-	/**
-	 * Overridden TableCellRenderer-function.
-	 * @return Component Icon to populate cell
-	 */
-	
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, 
-			                                       boolean isSelected, boolean hasFocus,
-			                                       int row, int column) {
-		if (value != null) {
-			if (column == 7 || column == 8) {
-				this.setIcon(icons.get(value));
-			}
-		}
-		return this;
-	}
-	
-	
 
-	
+	/* (non-Javadoc)
+	 * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
+	 */
+	@Override
+	public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
+													boolean isSelected, boolean cellHasFocus) {
+
+		
+		JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+		
+		// Get icon to use for the list item value
+		
+		Icon icon = icons.get(value);
+		
+		// Set icon to display for value
+		
+		label.setIcon(icon);
+		return label;
+	}
+
 }
