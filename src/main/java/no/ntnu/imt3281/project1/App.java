@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -74,6 +76,7 @@ public class App extends JFrame {
 	public App() {
 		super(I18N.getString("application.title"));
 		this.setLayout(new BorderLayout());
+		isAlreadySaved = false;
 		
 		createAndShowBars();
 		createAndShowTable();
@@ -301,7 +304,7 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void saveAs() {
-		saveFile = getFileChooser();
+		saveFile = getFileChooser("save");
 
 		if(saveFile != null) {
 			
@@ -325,13 +328,13 @@ public class App extends JFrame {
 	 * 
 	 * @return File Object of the selected folder/file, null if cancel.
 	 */
-	private File getFileChooser() {
+	private File getFileChooser(String operation) {
 		JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("GridBagLayout layout file", "gbl");
 		fileChooser.setFileFilter(filter);
 		
-		fileChooser.setDialogTitle(I18N.getString("fileChooser.title"));
-		fileChooser.setApproveButtonText(I18N.getString("fileChooser.approve"));
+		fileChooser.setDialogTitle(I18N.getString("fileChooser.title." + operation));
+		fileChooser.setApproveButtonText(I18N.getString("fileChooser.approve." + operation));
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		
 		int res = fileChooser.showOpenDialog(this);
@@ -349,7 +352,20 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void load() {
+		// if unsaved "save?" -> save()
 		
+		File openFile = getFileChooser("load");
+		
+		if(openFile != null) {
+			try {
+				FileInputStream fis = new FileInputStream(openFile);
+				data.load(fis);
+				isAlreadySaved = true;
+			} catch (FileNotFoundException e) {
+				
+			}
+			
+		}
 	}
 	
 	/**

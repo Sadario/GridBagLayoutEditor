@@ -299,6 +299,7 @@ public class GBLEDataModel extends AbstractTableModel {
 		try {
 			ObjectInputStream in = new ObjectInputStream(is);
 			components = (Vector<BaseComponent>) in.readObject();
+			fireTableDataChanged();
 		} catch(IOException e) {
 			System.err.println("err");
 		} catch(ClassNotFoundException temp) { // Vet ikke hvorfor in.readObject(); krevde denne
