@@ -31,6 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 
 /**
@@ -242,8 +243,9 @@ public class App extends JFrame {
 	 * Clears the table of components.
 	 * 
 	 */
-	private void clear() {
+	private void newFile() {
 		data.clear();
+		isAlreadySaved = false;
 	}
 	
 	/**
@@ -299,32 +301,46 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void saveAs() {
-		// Ikke ferdig
-		File saveFile = getFileSaveLocation();
-		
-		try {
-			FileOutputStream fos = new FileOutputStream(saveFile);
-			data.save(fos);
-			fos.close();
-		} catch (IOException e) {
+		saveFile = getFileChooser();
+
+		if(saveFile != null) {
 			
+			if(!saveFile.getName().endsWith(".gbl")) {
+				saveFile = new File(saveFile + ".gbl");
+			}
+			try {
+				FileOutputStream fos = new FileOutputStream(saveFile);
+				data.save(fos);
+				fos.close();
+				isAlreadySaved = true;
+			} catch (IOException e) {
+			
+			}
 		}
 	}
 	
 	/**
-	 * Gets the path to the chosen folder or file.
+	 * Handles the visual file navigation on the user's system and
+	 * returns the chosen file.
 	 * 
-	 * @return Path Object of the selected folder/file.
+	 * @return File Object of the selected folder/file, null if cancel.
 	 */
-	private File getFileSaveLocation() {
+	private File getFileChooser() {
 		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-		int res = fileChooser.showOpenDialog(this);
-		if(res == JFileChooser.CANCEL_OPTION) {
-			System.exit(1);
-		}
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("GridBagLayout layout file", "gbl");
+		fileChooser.setFileFilter(filter);
 		
-		return fileChooser.getSelectedFile();		
+		fileChooser.setDialogTitle(I18N.getString("fileChooser.title"));
+		fileChooser.setApproveButtonText(I18N.getString("fileChooser.approve"));
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		
+		int res = fileChooser.showOpenDialog(this);
+		
+		if(res == JFileChooser.APPROVE_OPTION) {
+			return fileChooser.getSelectedFile();
+		} else {
+			return null;
+		}
 	}
 	
 	/**
@@ -374,7 +390,7 @@ public class App extends JFrame {
 			
 			switch (cmd) {
 				case "newFile":
-					clear();
+					newFile();
 					break;
 				
 				case "newRow":
