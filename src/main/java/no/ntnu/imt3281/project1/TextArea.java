@@ -3,10 +3,19 @@
  */
 package no.ntnu.imt3281.project1;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SwingUtilities;
 
 /**
  * TextArea class represents a definable JTextArea object
@@ -21,6 +30,12 @@ public class TextArea extends BaseComponent {
 	private int textRows;
 	private int textCols;
 	private boolean wrap;
+	
+	// CONSTANTS
+	
+	private final int SPINNERMAXROWS = 50;
+	private final int SPINNERMAXCOLS = 150;
+
 
 	/**
 	 * No argument constructor calls BaseComponent's constructor
@@ -106,11 +121,58 @@ public class TextArea extends BaseComponent {
 	}
 
 	/**
-	 * TEMP - needs review/discussion
-	 * 
+	 * Creates the panel, to populate a frame, with option to edit special values.
+	 * @return JPanel with the content to view in special editor
 	 */
+	@Override
 	public Component getSpecialEditor() {
-		return new JPanel(new GridLayout(2,2));
+		JPanel mainPanel = new JPanel();
+		JPanel contentPanel = new JPanel();
+		JPanel buttonPanel = new JPanel();
+		JLabel label = new JLabel(I18N.getString("specialEditor.JLabel.text"));
+		JCheckBox wrapCheck = new JCheckBox();
+		JButton button = null;
+		
+		mainPanel.setLayout(new BorderLayout());
+		contentPanel.setLayout(new GridLayout(3, 2));
+				
+		mainPanel.add(label, BorderLayout.NORTH);
+		mainPanel.add(contentPanel, BorderLayout.CENTER);
+		
+		JSpinner columnsSpinner = App.addLabeledSpinner(contentPanel, I18N.getString("specialEditor.columns"), SPINNERMAXCOLS, textCols);
+		JSpinner rowsSpinner = App.addLabeledSpinner(contentPanel, I18N.getString("specialEditor.rows"), SPINNERMAXROWS, textRows);
+
+		label = new JLabel(I18N.getString("specialEditor.checkBox.wrapping"));
+		contentPanel.add(label);
+		contentPanel.add(wrapCheck);
+		
+		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+		buttonPanel.setLayout(new FlowLayout());
+		button = new JButton("OK");
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				textRows = (int) rowsSpinner.getValue();
+				textCols = (int) columnsSpinner.getValue();
+				wrap = (boolean) wrapCheck.isSelected();
+				SwingUtilities.getWindowAncestor(mainPanel).dispose();
+			}
+			
+		});
+		buttonPanel.add(button);
+		button = new JButton("Cancel");
+		button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SwingUtilities.getWindowAncestor(mainPanel).dispose();
+			}
+			
+		});
+		buttonPanel.add(button);
+		
+		return mainPanel;
 	}
 	
     /**

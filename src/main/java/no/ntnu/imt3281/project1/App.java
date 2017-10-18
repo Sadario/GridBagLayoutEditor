@@ -2,11 +2,11 @@ package no.ntnu.imt3281.project1;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -14,27 +14,23 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
 
 import javax.swing.DefaultCellEditor;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
@@ -76,6 +72,8 @@ public class App extends JFrame {
 			GridBagConstraints.SOUTHEAST,
 			GridBagConstraints.SOUTHWEST
 	};
+	
+
 	
 	/**
 	 * Constructor
@@ -122,13 +120,18 @@ public class App extends JFrame {
 		});
 	}
 	
+	/**
+	 * Gives right-click menu, containing delete- and special value editor-option
+	 * @return Right-click menu
+	 */
+	
 	private JPopupMenu createPopupMenu() {
 		JPopupMenu menu = new JPopupMenu();
 		ActionListener menuListener = new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
 				switch (event.getActionCommand()) {
 				case "getSpecialEditor":
-					JOptionPane.showMessageDialog(null, "Not yet implemented! #TODO.getSpecialEditor");
+					getSpecialEditor();
 					break;
 				case "deleteItem":
 					data.removeComponent(table.getSelectedRow());
@@ -152,6 +155,29 @@ public class App extends JFrame {
 		menu.addPopupMenuListener(new PopupListener());
 		table.setComponentPopupMenu(menu);
 		return menu;				
+	}
+	
+	private void getSpecialEditor() {
+		BaseComponent comp = data.components.elementAt(table.getSelectedRow());
+		Dimension windowDimension = null;
+		String windowTitle = null;
+		
+		if (comp instanceof TextArea || comp instanceof TextField) {
+			if (comp instanceof TextArea) {
+				windowDimension = new Dimension(320, 125);
+				windowTitle = I18N.getString("specialEditor.JTextArea.title");
+			} else if (comp instanceof TextField) {
+				windowDimension = new Dimension(320, 75);
+				windowTitle = I18N.getString("specialEditor.JTextField.title");
+			}
+			JDialog frame = new JDialog(this, windowTitle, true); 
+			frame.setSize(windowDimension);
+			JPanel panel = (JPanel)data.components.elementAt(table.getSelectedRow()).getSpecialEditor();
+			frame.add(panel);
+			if (frame != null) {
+				frame.setVisible(true);
+			}
+		}
 	}
 	
 	class PopupListener implements PopupMenuListener {
@@ -537,5 +563,29 @@ public class App extends JFrame {
 	
 	private static void setStatusText(String newText) {
 		statusBar.setText(newText);
+	}
+	
+	/**
+	 * Creates JSpinner-object with associated label, with correct values for min/max/current.
+	 * Assumes minimum-value is 0.
+	 * 
+	 * {@link http://docs.oracle.com/javase/tutorial/uiswing/examples/components/SpinnerDemoProject/src/components/SpinnerDemo.java}
+	 * @param c Container to add the JSpinner to
+	 * @param label Label with the text associated with the spinner
+	 * @param spinnerMax Maximum value for this spinner
+	 * @return JSpinner-object
+	 */
+	public static JSpinner addLabeledSpinner(Container c, String label, int spinnerMax, int currentValue) {
+		final int SPINNERMIN = 0;
+		
+		JLabel l = new JLabel(label);
+		c.add(l);
+		
+		JSpinner spinner = new JSpinner(new SpinnerNumberModel(currentValue, SPINNERMIN, spinnerMax, 1));
+		l.setLabelFor(spinner);
+		c.add(spinner);
+		
+		spinner.setEditor(new JSpinner.NumberEditor(spinner));
+		return spinner;
 	}
 }

@@ -25,8 +25,8 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * 		DATA:
 	 */
 	private static final long serialVersionUID = 1L;
-	private Vector<BaseComponent> components;
-	private String[] columnNames;
+	public Vector<BaseComponent> components;
+	public String[] columnNames;
 	
 	/**
 	 * 		INHERITED METHODS:
