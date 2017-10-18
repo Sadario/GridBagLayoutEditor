@@ -9,11 +9,14 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -95,7 +98,7 @@ public class App extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
-		setStatusText("Program initialized...");
+		setStatusText("Program initialized");
 	}
 
 	/**
@@ -154,24 +157,6 @@ public class App extends JFrame {
 		return menu;				
 	}
 	
-	class PopupListener implements PopupMenuListener {
-
-		@Override
-		public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-			
-		}
-
-		@Override
-		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-			
-		}
-
-		@Override
-		public void popupMenuCanceled(PopupMenuEvent e) {
-			
-		}
-		
-	}
 	
 	/**
 	 * Calls the functions which creates the surrounding menu- and toolbars.
@@ -211,11 +196,12 @@ public class App extends JFrame {
 		fileMenu.add(bar.createJMenuItem("file", "saveAs", "Save.gif", handler));
 		fileMenu.addSeparator();
 		fileMenu.add(bar.createJMenuItem("file", "preview", "", handler));
-		fileMenu.add(bar.createJMenuItem("file", "generate", "SaveJava.gif", handler));
+		fileMenu.add(bar.createJMenuItem("file", "generateJava", "SaveJava.gif", handler));
 		fileMenu.addSeparator();
 		fileMenu.add(bar.createJMenuItem("file", "exit", "", handler));
 		
 	}
+	
 	
 	private void createEditMenu(MenuBar bar, ClickHandler handler) {
 		
@@ -244,7 +230,7 @@ public class App extends JFrame {
 	}
 
 	/**
-	 * Creates the toolbar including all of its contents.
+	 * Creates the tool bar including all of its contents.
 	 * 
 	 * @param bar ToolBar object which contains all the toolbar buttons.
 	 * @param handler private ClickHandler object which manages the event handlers.
@@ -256,7 +242,7 @@ public class App extends JFrame {
 		bar.makeButton("Save.gif", "save", handler);
 		bar.addSeparator();
 		bar.makeButton("ExecuteProject.gif", "generate", handler);
-		bar.makeButton("SaveJava.gif", "saveBin", handler);
+		bar.makeButton("SaveJava.gif", "generateJava", handler);
 		bar.addSeparator();
 		bar.makeButton("NewRow.gif", "newRow", handler);
 		bar.makeButton("MoveRowUp.gif", "moveRowUp", handler);
@@ -265,7 +251,6 @@ public class App extends JFrame {
 		bar.makeButton("Help.gif", "help", handler);
 		
 	}
-	
 	
 	/**
 	 * Creates an empty main table.
@@ -382,7 +367,6 @@ public class App extends JFrame {
 		}
 	}
 	
-	
 	/**
 	 * Saves the current GridBagLayout file to a directory of the user's
 	 * choice with a filename and extension of the user's choice.
@@ -404,6 +388,28 @@ public class App extends JFrame {
 			} catch (IOException e) {
 			
 			}
+		}
+	}
+	
+	/**
+	 * Loads an existing GridBagLayout file from a directory of the user's
+	 * choice.
+	 * 
+	 */
+	private void load() {
+		// if unsaved "save?" -> save()
+		
+		File openFile = getFileChooser("load");
+		
+		if(openFile != null) {
+			try {
+				FileInputStream fis = new FileInputStream(openFile);
+				data.load(fis);
+				isAlreadySaved = true;
+			} catch (FileNotFoundException e) {
+				
+			}
+			
 		}
 	}
 	
@@ -432,29 +438,76 @@ public class App extends JFrame {
 	}
 	
 	/**
-	 * Loads an existing GridBagLayout file from a directory of the user's
-	 * choice.
+	 * Gets Java code from getJavaCodeString(String) and writes
+	 * this to a text file with the same file path as
+	 * the current saveFile. Adds a .java extension.
 	 * 
 	 */
-	private void load() {
-		// if unsaved "save?" -> save()
+	private void exportJavaCode() {
+		if(saveFile == null) {
+			saveAs();
+		}
+		String temp[];
+		String fileName, className, exportFilePath, exportFileName;
 		
-		File openFile = getFileChooser("load");
+		temp      = saveFile.getAbsolutePath().split("((/)|(\\\\))");
 		
-		if(openFile != null) {
-			try {
-				FileInputStream fis = new FileInputStream(openFile);
-				data.load(fis);
-				isAlreadySaved = true;
-			} catch (FileNotFoundException e) {
-				
-			}
+		fileName  = temp[temp.length-1].substring(0, 1).toUpperCase() 
+				  + temp[temp.length-1].substring(1).toLowerCase();
+		className = fileName.split("\\.")[0];
+		
+		exportFilePath  = saveFile.getAbsolutePath();
+		exportFileName = exportFilePath.substring(0, exportFilePath.length() - 4) + ".java";
+		
+		try {
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(exportFileName)));
+			out.write(getJavaExportString(className).toString());
+			out.close();
+		} catch (IOException e) {
 			
 		}
+		
 	}
 	
 	/**
+	 * Builds the Java code constructed by the editor which is to be
+	 * exported to a .java file.
 	 * 
+	 * @param className String value of the file name which will be used as the class name.
+	 * @return String representation of the java code to be exported to file.
+	 */
+	private String getJavaExportString(String className) {
+			
+		StringBuilder javaCode = new StringBuilder();
+		javaCode.append("import javax.swing.*;\n");
+		javaCode.append("import java.awt.*;\n\n");
+		javaCode.append("/**\n* Code generated from GridBagLayoutEditor v0.1\n*/\n");
+		javaCode.append("public class " + className + " extends JPanel {\n");
+		javaCode.append(data.getDefinitions() + "\n");
+		javaCode.append("\tpublic " + className +  "() {\n");
+		javaCode.append("\t\tGridBagLayout layout = new GridBagLayout();\n");
+		javaCode.append("\t\tGridBagLayout gbc = new GridBagConstraints();\n");
+		javaCode.append("\t\tsetLayout(layout);\n");
+		javaCode.append(data.getLayoutCode());
+		javaCode.append("\t}\n}\n");
+		
+		return javaCode.toString();
+	}
+
+	
+	private static void createStatusBar() {
+		statusBar = new JTextField();
+		statusBar.setEditable(false);
+		statusBar.setHighlighter(null);
+	}
+	
+	private static void setStatusText(String newText) {
+		statusBar.setText(newText);
+	}
+	
+	
+	
+	/**
 	 * 
 	 * @param args
 	 */
@@ -462,7 +515,6 @@ public class App extends JFrame {
     {
     	App window = new App();
     }
-    
     
     
     private class TableHandler implements TableModelListener {
@@ -522,6 +574,11 @@ public class App extends JFrame {
 					load();
 					break;
 					
+				case "generateJava":
+					exportJavaCode();
+					break;
+					
+					
 				default:
 					System.out.println(cmd);
 					break;
@@ -529,13 +586,23 @@ public class App extends JFrame {
 		}
 	}
 	
-	private static void createStatusBar() {
-		statusBar = new JTextField();
-		statusBar.setEditable(false);
-		statusBar.setHighlighter(null);
+	private class PopupListener implements PopupMenuListener {
+
+		@Override
+		public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+			
+		}
+
+		@Override
+		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+			
+		}
+
+		@Override
+		public void popupMenuCanceled(PopupMenuEvent e) {
+			
+		}
+		
 	}
-	
-	private static void setStatusText(String newText) {
-		statusBar.setText(newText);
-	}
+
 }

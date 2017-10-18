@@ -187,9 +187,19 @@ public class GBLEDataModel extends AbstractTableModel {
 		return defs.toString();
 	}
 	
+	/**
+	 * Returns the layout code for all objects in the Vector
+	 * separated by new line characters.
+	 * 
+	 * @return String value of the objects' layouts.
+	 */
 	public String getLayoutCode() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder layouts = new StringBuilder();
+		
+		for(BaseComponent obj : components) {
+			layouts.append(obj.getLayoutCode());
+		}
+		return layouts.toString();
 	}
 	
 	/**

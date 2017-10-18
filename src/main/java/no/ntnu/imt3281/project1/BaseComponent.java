@@ -33,7 +33,8 @@ public class BaseComponent implements Serializable {
 		variableName = "component" + nextComponentID;
 		text = "";
 		row = col = rows = cols = 1;
-		anchor = GridBagConstraints.CENTER;
+		anchor = java.awt.GridBagConstraints.CENTER;
+		fill = java.awt.GridBagConstraints.NONE;
 		nextComponentID++;
 	}
 	
