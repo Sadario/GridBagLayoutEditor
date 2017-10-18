@@ -486,11 +486,18 @@ public class App extends JFrame {
 		javaCode.append(data.getDefinitions() + "\n");
 		javaCode.append("\tpublic " + className +  "() {\n");
 		javaCode.append("\t\tGridBagLayout layout = new GridBagLayout();\n");
-		javaCode.append("\t\tGridBagLayout gbc = new GridBagConstraints();\n");
+		javaCode.append("\t\tGridBagConstraints gbc = new GridBagConstraints();\n");
 		javaCode.append("\t\tsetLayout(layout);\n");
 		javaCode.append(data.getLayoutCode());
+		javaCode.append("\t}\n\n");
+		javaCode.append("\tpublic static void main(String[] args) {\n");
+		javaCode.append("\t\tJFrame frame = new JFrame();\n");
+		javaCode.append("\t\tframe.setSize(400, 400);\n");
+		javaCode.append("\t\tframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n");
+		javaCode.append("\t\tframe.setVisible(true);\n\n");
+		javaCode.append("\t\t" + className + " temp = new " + className + "();\n");
+		javaCode.append("\t\tframe.add(temp, BorderLayout.CENTER);\n");
 		javaCode.append("\t}\n}\n");
-		
 		return javaCode.toString();
 	}
 
@@ -515,6 +522,7 @@ public class App extends JFrame {
     {
     	App window = new App();
     }
+    
     
     
     private class TableHandler implements TableModelListener {
@@ -606,3 +614,5 @@ public class App extends JFrame {
 	}
 
 }
+
+
