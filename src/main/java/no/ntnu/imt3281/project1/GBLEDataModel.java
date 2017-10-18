@@ -82,6 +82,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * @return String value of a Component's string attributes
 	 * @return Integer value of a Component's integer attributes
 	 */
+	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		BaseComponent temp = components.get(rowIndex);

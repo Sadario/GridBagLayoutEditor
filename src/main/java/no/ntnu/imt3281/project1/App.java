@@ -58,7 +58,8 @@ public class App extends JFrame {
 	private static final int UP = -1;
 	private static final int DOWN = 1;
 	private static JTextField statusBar;
-	private boolean isAlreadySaved;
+	private boolean hasDefinedSaveLocation;                            // Editor file is saved to disk
+	private boolean isChanged;                                         // Editor file has unsaved changes
 	private File saveFile;
 	private GBLEDataModel data;
 	private JTable table;
@@ -87,7 +88,8 @@ public class App extends JFrame {
 	public App() {
 		super(I18N.getString("application.title"));
 		this.setLayout(new BorderLayout());
-		isAlreadySaved = false;
+		hasDefinedSaveLocation = false;
+		isChanged = false;
 		
 		createAndShowBars();
 		createAndShowTable();
@@ -318,7 +320,17 @@ public class App extends JFrame {
 	 */
 	private void newFile() {
 		data.clear();
-		isAlreadySaved = false;
+		hasDefinedSaveLocation = false;
+		isChanged = true;
+	}
+	
+	/**
+	 * Creates a new table row with the default component.
+	 * 
+	 */
+	private void newRow() {
+		data.addComponent(new Label());
+		isChanged = true;
 	}
 	
 	/**
@@ -332,11 +344,13 @@ public class App extends JFrame {
 		if(direction == UP && currentRow > 0) {
 			data.moveComponentUp(table.getSelectedRow());
 			table.getSelectionModel().setSelectionInterval(currentRow-1, currentRow-1);
+			isChanged = true;
 											// La til en sjekk, for å unngå
 											// flytting av nederste rad nedover:
 		} else if (direction == DOWN && currentRow != data.getRowCount()-1) {
 			data.moveComponentDown(table.getSelectedRow());
 			table.getSelectionModel().setSelectionInterval(currentRow+1, currentRow+1);
+			isChanged = true;
 		}
 	}
 	
@@ -354,11 +368,12 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void save() {
-		if(isAlreadySaved) {
+		if(hasDefinedSaveLocation) {
 			try {
 				FileOutputStream fos = new FileOutputStream(saveFile);
 				data.save(fos);
 				fos.close();
+				isChanged = false;
 			} catch (IOException e) {
 				
 			}
@@ -384,7 +399,8 @@ public class App extends JFrame {
 				FileOutputStream fos = new FileOutputStream(saveFile);
 				data.save(fos);
 				fos.close();
-				isAlreadySaved = true;
+				hasDefinedSaveLocation = true;
+				isChanged = false;
 			} catch (IOException e) {
 			
 			}
@@ -397,7 +413,9 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void load() {
-		// if unsaved "save?" -> save()
+		if(isChanged == true) {
+			save();
+		}
 		
 		File openFile = getFileChooser("load");
 		
@@ -405,7 +423,8 @@ public class App extends JFrame {
 			try {
 				FileInputStream fis = new FileInputStream(openFile);
 				data.load(fis);
-				isAlreadySaved = true;
+				hasDefinedSaveLocation = true;
+				isChanged = false;
 			} catch (FileNotFoundException e) {
 				
 			}
@@ -444,9 +463,12 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void exportJavaCode() {
-		if(saveFile == null) {
-			saveAs();
+		
+		if(isChanged || saveFile == null) {                          // Uses the file name on disk
+			save();
 		}
+
+		
 		String temp[];
 		String fileName, className, exportFilePath, exportFileName;
 		
@@ -470,7 +492,18 @@ public class App extends JFrame {
 	}
 	
 	/**
-	 * Builds the Java code constructed by the editor which is to be
+	 * Exits the program, asks to save if changes are made.
+	 * 
+	 */
+	private void exit() {
+		if(isChanged) {
+			save();
+		}
+		System.exit(0);
+	}
+	
+	/**
+	 * Builds the Java code constructed by the editor which9ol., is to be
 	 * exported to a .java file.
 	 * 
 	 * @param className String value of the file name which will be used as the class name.
@@ -544,8 +577,10 @@ public class App extends JFrame {
     	
     }
     
-	private class ClickHandler implements ActionListener {
-		@Override
+	
+    private class ClickHandler implements ActionListener {
+		
+    	@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
 			
@@ -555,7 +590,7 @@ public class App extends JFrame {
 					break;
 				
 				case "newRow":
-					data.addComponent(new Label());
+					newRow();
 					break;
 
 				case "moveRowUp":
@@ -586,6 +621,10 @@ public class App extends JFrame {
 					exportJavaCode();
 					break;
 					
+				case "exit":
+					exit();
+					break;
+					
 					
 				default:
 					System.out.println(cmd);
@@ -593,6 +632,7 @@ public class App extends JFrame {
 			}
 		}
 	}
+    
 	
 	private class PopupListener implements PopupMenuListener {
 
