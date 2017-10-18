@@ -6,7 +6,6 @@ package no.ntnu.imt3281.project1;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
@@ -21,6 +20,10 @@ import javax.swing.JList;
  */
 public class IconListRenderer extends DefaultListCellRenderer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private HashMap<Integer, Icon> icons;
 
 	/**

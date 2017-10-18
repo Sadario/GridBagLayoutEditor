@@ -34,6 +34,7 @@ public class BaseComponent implements Serializable {
 		text = "";
 		row = col = rows = cols = 1;
 		anchor = GridBagConstraints.CENTER;
+		fill = GridBagConstraints.NONE;
 		nextComponentID++;
 	}
 	

@@ -8,8 +8,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.util.ResourceBundle;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
@@ -82,6 +80,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * @return String value of a Component's string attributes
 	 * @return Integer value of a Component's integer attributes
 	 */
+	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		BaseComponent temp = components.get(rowIndex);
@@ -187,9 +186,19 @@ public class GBLEDataModel extends AbstractTableModel {
 		return defs.toString();
 	}
 	
+	/**
+	 * Returns the layout code for all objects in the Vector
+	 * separated by new line characters.
+	 * 
+	 * @return String value of the objects' layouts.
+	 */
 	public String getLayoutCode() {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder layouts = new StringBuilder();
+		
+		for(BaseComponent obj : components) {
+			layouts.append(obj.getLayoutCode());
+		}
+		return layouts.toString();
 	}
 	
 	/**

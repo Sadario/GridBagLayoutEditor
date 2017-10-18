@@ -8,10 +8,7 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.ListCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
 /** 
@@ -22,6 +19,10 @@ import javax.swing.table.TableCellRenderer;
 
 public class AnchorFillRenderer extends JLabel implements TableCellRenderer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient Map<Integer, Icon> icons;
 	
 	public AnchorFillRenderer() {

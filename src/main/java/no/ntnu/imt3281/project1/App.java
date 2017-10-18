@@ -9,12 +9,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-
+import java.io.PrintWriter;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -34,10 +36,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.border.BevelBorder;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.TableModel;
 
 /**
  * App class serves as a container for the whole application and also contains
@@ -48,10 +47,15 @@ import javax.swing.table.TableModel;
  *
  */
 public class App extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final int UP = -1;
 	private static final int DOWN = 1;
 	private static JTextField statusBar;
-	private boolean isAlreadySaved;
+	private boolean hasDefinedSaveLocation;                            // Editor file is saved to disk
+	private boolean isChanged;                                         // Editor file has unsaved changes
 	private File saveFile;
 	private GBLEDataModel data;
 	private JTable table;
@@ -82,7 +86,8 @@ public class App extends JFrame {
 	public App() {
 		super(I18N.getString("application.title"));
 		this.setLayout(new BorderLayout());
-		isAlreadySaved = false;
+		hasDefinedSaveLocation = false;
+		isChanged = false;
 		
 		createAndShowBars();
 		createAndShowTable();
@@ -93,7 +98,7 @@ public class App extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
-		setStatusText("Program initialized...");
+		setStatusText("Program initialized");
 	}
 
 	/**
@@ -180,25 +185,6 @@ public class App extends JFrame {
 		}
 	}
 	
-	class PopupListener implements PopupMenuListener {
-
-		@Override
-		public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-			
-		}
-
-		@Override
-		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-			
-		}
-
-		@Override
-		public void popupMenuCanceled(PopupMenuEvent e) {
-			
-		}
-		
-	}
-	
 	/**
 	 * Calls the functions which creates the surrounding menu- and toolbars.
 	 * 
@@ -237,11 +223,12 @@ public class App extends JFrame {
 		fileMenu.add(bar.createJMenuItem("file", "saveAs", "Save.gif", handler));
 		fileMenu.addSeparator();
 		fileMenu.add(bar.createJMenuItem("file", "preview", "", handler));
-		fileMenu.add(bar.createJMenuItem("file", "generate", "SaveJava.gif", handler));
+		fileMenu.add(bar.createJMenuItem("file", "generateJava", "SaveJava.gif", handler));
 		fileMenu.addSeparator();
 		fileMenu.add(bar.createJMenuItem("file", "exit", "", handler));
 		
 	}
+	
 	
 	private void createEditMenu(MenuBar bar, ClickHandler handler) {
 		
@@ -270,7 +257,7 @@ public class App extends JFrame {
 	}
 
 	/**
-	 * Creates the toolbar including all of its contents.
+	 * Creates the tool bar including all of its contents.
 	 * 
 	 * @param bar ToolBar object which contains all the toolbar buttons.
 	 * @param handler private ClickHandler object which manages the event handlers.
@@ -282,7 +269,7 @@ public class App extends JFrame {
 		bar.makeButton("Save.gif", "save", handler);
 		bar.addSeparator();
 		bar.makeButton("ExecuteProject.gif", "generate", handler);
-		bar.makeButton("SaveJava.gif", "saveBin", handler);
+		bar.makeButton("SaveJava.gif", "generateJava", handler);
 		bar.addSeparator();
 		bar.makeButton("NewRow.gif", "newRow", handler);
 		bar.makeButton("MoveRowUp.gif", "moveRowUp", handler);
@@ -291,7 +278,6 @@ public class App extends JFrame {
 		bar.makeButton("Help.gif", "help", handler);
 		
 	}
-	
 	
 	/**
 	 * Creates an empty main table.
@@ -359,7 +345,17 @@ public class App extends JFrame {
 	 */
 	private void newFile() {
 		data.clear();
-		isAlreadySaved = false;
+		hasDefinedSaveLocation = false;
+		isChanged = true;
+	}
+	
+	/**
+	 * Creates a new table row with the default component.
+	 * 
+	 */
+	private void newRow() {
+		data.addComponent(new Label());
+		isChanged = true;
 	}
 	
 	/**
@@ -373,11 +369,13 @@ public class App extends JFrame {
 		if(direction == UP && currentRow > 0) {
 			data.moveComponentUp(table.getSelectedRow());
 			table.getSelectionModel().setSelectionInterval(currentRow-1, currentRow-1);
+			isChanged = true;
 											// La til en sjekk, for å unngå
 											// flytting av nederste rad nedover:
 		} else if (direction == DOWN && currentRow != data.getRowCount()-1) {
 			data.moveComponentDown(table.getSelectedRow());
 			table.getSelectionModel().setSelectionInterval(currentRow+1, currentRow+1);
+			isChanged = true;
 		}
 	}
 	
@@ -395,11 +393,12 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void save() {
-		if(isAlreadySaved) {
+		if(hasDefinedSaveLocation) {
 			try {
 				FileOutputStream fos = new FileOutputStream(saveFile);
 				data.save(fos);
 				fos.close();
+				isChanged = false;
 			} catch (IOException e) {
 				
 			}
@@ -407,7 +406,6 @@ public class App extends JFrame {
 			saveAs();
 		}
 	}
-	
 	
 	/**
 	 * Saves the current GridBagLayout file to a directory of the user's
@@ -426,10 +424,36 @@ public class App extends JFrame {
 				FileOutputStream fos = new FileOutputStream(saveFile);
 				data.save(fos);
 				fos.close();
-				isAlreadySaved = true;
+				hasDefinedSaveLocation = true;
+				isChanged = false;
 			} catch (IOException e) {
 			
 			}
+		}
+	}
+	
+	/**
+	 * Loads an existing GridBagLayout file from a directory of the user's
+	 * choice.
+	 * 
+	 */
+	private void load() {
+		if(isChanged == true) {
+			save();
+		}
+		
+		File openFile = getFileChooser("load");
+		
+		if(openFile != null) {
+			try {
+				FileInputStream fis = new FileInputStream(openFile);
+				data.load(fis);
+				hasDefinedSaveLocation = true;
+				isChanged = false;
+			} catch (FileNotFoundException e) {
+				
+			}
+			
 		}
 	}
 	
@@ -458,60 +482,108 @@ public class App extends JFrame {
 	}
 	
 	/**
-	 * Loads an existing GridBagLayout file from a directory of the user's
-	 * choice.
+	 * Gets Java code from getJavaCodeString(String) and writes
+	 * this to a text file with the same file path as
+	 * the current saveFile. Adds a .java extension.
 	 * 
 	 */
-	private void load() {
-		// if unsaved "save?" -> save()
+	private void exportJavaCode() {
 		
-		File openFile = getFileChooser("load");
+		if(isChanged || saveFile == null) {                          // Uses the file name on disk
+			save();
+		}
+
 		
-		if(openFile != null) {
-			try {
-				FileInputStream fis = new FileInputStream(openFile);
-				data.load(fis);
-				isAlreadySaved = true;
-			} catch (FileNotFoundException e) {
-				
-			}
+		String temp[];
+		String fileName, className, exportFilePath, exportFileName;
+		
+		temp      = saveFile.getAbsolutePath().split("((/)|(\\\\))");
+		
+		fileName  = temp[temp.length-1].substring(0, 1).toUpperCase() 
+				  + temp[temp.length-1].substring(1).toLowerCase();
+		className = fileName.split("\\.")[0];
+		
+		exportFilePath  = saveFile.getAbsolutePath();
+		exportFileName = exportFilePath.substring(0, exportFilePath.length() - 4) + ".java";
+		
+		try {
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(exportFileName)));
+			out.write(getJavaExportString(className).toString());
+			out.close();
+		} catch (IOException e) {
 			
 		}
+		
 	}
 	
 	/**
+	 * Exits the program, asks to save if changes are made.
 	 * 
+	 */
+	private void exit() {
+		if(isChanged) {
+			save();
+		}
+		System.exit(0);
+	}
+	
+	/**
+	 * Builds the Java code constructed by the editor which9ol., is to be
+	 * exported to a .java file.
+	 * 
+	 * @param className String value of the file name which will be used as the class name.
+	 * @return String representation of the java code to be exported to file.
+	 */
+	private String getJavaExportString(String className) {
+			
+		StringBuilder javaCode = new StringBuilder();
+		javaCode.append("import javax.swing.*;\n");
+		javaCode.append("import java.awt.*;\n\n");
+		javaCode.append("/**\n* Code generated from GridBagLayoutEditor v0.1\n*/\n");
+		javaCode.append("public class " + className + " extends JPanel {\n");
+		javaCode.append(data.getDefinitions() + "\n");
+		javaCode.append("\tpublic " + className +  "() {\n");
+		javaCode.append("\t\tGridBagLayout layout = new GridBagLayout();\n");
+		javaCode.append("\t\tGridBagConstraints gbc = new GridBagConstraints();\n");
+		javaCode.append("\t\tsetLayout(layout);\n");
+		javaCode.append(data.getLayoutCode());
+		javaCode.append("\t}\n\n");
+		javaCode.append("\tpublic static void main(String[] args) {\n");
+		javaCode.append("\t\tJFrame frame = new JFrame();\n");
+		javaCode.append("\t\tframe.setSize(400, 400);\n");
+		javaCode.append("\t\tframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n");
+		javaCode.append("\t\tframe.setVisible(true);\n\n");
+		javaCode.append("\t\t" + className + " temp = new " + className + "();\n");
+		javaCode.append("\t\tframe.add(temp, BorderLayout.CENTER);\n");
+		javaCode.append("\t}\n}\n");
+		return javaCode.toString();
+	}
+
+	
+	private static void createStatusBar() {
+		statusBar = new JTextField();
+		statusBar.setEditable(false);
+		statusBar.setHighlighter(null);
+	}
+	
+	private static void setStatusText(String newText) {
+		statusBar.setText(newText);
+	}
+	
+	
+	
+	/**
 	 * 
 	 * @param args
 	 */
     public static void main( String[] args )
     {
     	App window = new App();
-    }
-    
-    
-    
-    private class TableHandler implements TableModelListener {
-
-		@Override
-		public void tableChanged(TableModelEvent e) {
-			int row = e.getFirstRow();
-			int col = e.getColumn();
-			TableModel model = (TableModel)e.getSource();
-			Object cellData = model.getValueAt(row, col);
-			
-			if(col == 0) {
-				// data.setValueAt(Object stringVal, int rowIndex, int 0)
-			}
-			
-		}
-
-
-    	
-    }
-    
-	private class ClickHandler implements ActionListener {
-		@Override
+    }   
+	
+    private class ClickHandler implements ActionListener {
+		
+    	@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
 			
@@ -521,7 +593,7 @@ public class App extends JFrame {
 					break;
 				
 				case "newRow":
-					data.addComponent(new Label());
+					newRow();
 					break;
 
 				case "moveRowUp":
@@ -548,23 +620,42 @@ public class App extends JFrame {
 					load();
 					break;
 					
+				case "generateJava":
+					exportJavaCode();
+					break;
+					
+				case "exit":
+					exit();
+					break;
+					
+					
 				default:
 					System.out.println(cmd);
 					break;
 			}
 		}
 	}
+    
 	
-	private static void createStatusBar() {
-		statusBar = new JTextField();
-		statusBar.setEditable(false);
-		statusBar.setHighlighter(null);
+	private class PopupListener implements PopupMenuListener {
+
+		@Override
+		public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+			
+		}
+
+		@Override
+		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
+			
+		}
+
+		@Override
+		public void popupMenuCanceled(PopupMenuEvent e) {
+			
+		}
+		
 	}
-	
-	private static void setStatusText(String newText) {
-		statusBar.setText(newText);
-	}
-	
+
 	/**
 	 * Creates JSpinner-object with associated label, with correct values for min/max/current.
 	 * Assumes minimum-value is 0.
@@ -589,3 +680,5 @@ public class App extends JFrame {
 		return spinner;
 	}
 }
+
+

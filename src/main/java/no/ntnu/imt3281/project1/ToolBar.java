@@ -3,13 +3,11 @@
  */
 package no.ntnu.imt3281.project1;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 
 /**
@@ -17,6 +15,11 @@ import javax.swing.JToolBar;
  *
  */
 public class ToolBar extends JToolBar {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public ToolBar(ActionListener handler) {        
 		super("Draggable");

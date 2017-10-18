@@ -6,9 +6,7 @@ package no.ntnu.imt3281.project1;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
@@ -20,6 +18,11 @@ import javax.swing.ImageIcon;
  * Menubar for the application, with different functionality #TODO
  */
 public class MenuBar extends JMenuBar {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Creates the MenuBar at the top of the application.
 	 * #TODO implement listeners
