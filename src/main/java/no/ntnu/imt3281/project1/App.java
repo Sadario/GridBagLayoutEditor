@@ -181,9 +181,7 @@ public class App extends JFrame {
 			frame.setSize(windowDimension);
 			JPanel panel = (JPanel)data.components.elementAt(table.getSelectedRow()).getSpecialEditor();
 			frame.add(panel);
-			if (frame != null) {
-				frame.setVisible(true);
-			}
+			frame.setVisible(true);
 		}
 	}
 	
