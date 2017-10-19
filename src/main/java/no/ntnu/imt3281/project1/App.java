@@ -36,8 +36,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.BevelBorder;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -155,7 +153,6 @@ public class App extends JFrame {
 		item.addActionListener(menuListener);
 		menu.setLabel("LabelTest");
 		menu.setBorder(new BevelBorder(BevelBorder.RAISED));
-//		menu.addPopupMenuListener(new PopupListener());
 		table.setComponentPopupMenu(menu);
 		return menu;				
 	}
