@@ -298,23 +298,17 @@ public class App extends JFrame {
 		createStatusBar();
 	    makeSpecialColumns(table);
 	    
-	    for (int i = 0; i <= 8; i++) {
-	    	table.getColumnModel().getColumn(i).setPreferredWidth(100);
-	    }
-	    // Thomas kommentar: Tanken var forskjellige bredder
-	    /*
-	    table.getColumnModel().getColumn(0).setPreferredWidth(100);
+	    table.getColumnModel().getColumn(0).setPreferredWidth(110);
 	    table.getColumnModel().getColumn(1).setPreferredWidth(100);
-	    table.getColumnModel().getColumn(2).setPreferredWidth(100);
-	    table.getColumnModel().getColumn(3).setPreferredWidth(100);
-	    table.getColumnModel().getColumn(4).setPreferredWidth(100);
-	    table.getColumnModel().getColumn(5).setPreferredWidth(100);
-	    table.getColumnModel().getColumn(6).setPreferredWidth(100);
-	    table.getColumnModel().getColumn(7).setPreferredWidth(100);
-	    table.getColumnModel().getColumn(8).setPreferredWidth(100);
-	    */
-	    table.setRowHeight(20);
+	    table.getColumnModel().getColumn(2).setPreferredWidth(160);
+	    table.getColumnModel().getColumn(3).setPreferredWidth(65);
+	    table.getColumnModel().getColumn(4).setPreferredWidth(65);
+	    table.getColumnModel().getColumn(5).setPreferredWidth(65);
+	    table.getColumnModel().getColumn(6).setPreferredWidth(65);
+	    table.getColumnModel().getColumn(7).setPreferredWidth(140);
+	    table.getColumnModel().getColumn(8).setPreferredWidth(140);
 	    
+	    table.setRowHeight(20);
 	}
 	
 	/**
@@ -407,6 +401,7 @@ public class App extends JFrame {
 				isChanged = false;
 			} catch (IOException e) {
 				System.err.println("Failed to save file: " + e);
+				JOptionPane.showMessageDialog(this, I18N.getString("errorPopUpBox.saveFail"));
 			}
 		} else {
 			saveAs();
@@ -436,6 +431,8 @@ public class App extends JFrame {
 				setStatusText(saveFile.getAbsolutePath());
 			} catch (IOException e) {
 			    System.err.println("Failed to save file: " + e);
+				JOptionPane.showMessageDialog(this, I18N.getString("errorPopUpBox.saveFail"));
+
 			}
 		} else {
 			System.err.println("SaveAs() canceled");
@@ -469,6 +466,7 @@ public class App extends JFrame {
 					setStatusText(saveFile.getAbsolutePath());
 				} catch (FileNotFoundException e) {
 					System.err.println("Failed to open file: " + e);
+					JOptionPane.showMessageDialog(this, I18N.getString("errorPopUpBox.openFail"));
 				}
 			} else {
 				System.err.println("load() canceled");
@@ -509,7 +507,7 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void exportJavaCode() {
-		if(isChanged || !hasDefinedSaveLocation) {                          // Uses the file name on disk
+		if(!hasDefinedSaveLocation) {                                 // Uses the file name on disk
 			save();
 		}
 		if(hasDefinedSaveLocation) {
@@ -533,6 +531,8 @@ public class App extends JFrame {
 				out.close();
 			} catch (IOException e) {
 				System.err.println("Failed to save file: " + e);
+				JOptionPane.showMessageDialog(this, I18N.getString("errorPopUpBox.saveFail"));
+
 			}
 		} else {
 			System.err.println("exportJavaCode() canceled, user did not save file");
@@ -578,10 +578,22 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void exit() {
-		if(isChanged) {
-			save();
+		int optionSelected = JOptionPane.YES_OPTION;
+		
+		if(isChanged == true) {
+			optionSelected = JOptionPane.showConfirmDialog(this, I18N.getString("confirmDialog.unsaved"));
 		}
-		System.exit(0);
+		if(optionSelected == JOptionPane.YES_OPTION) {
+			System.exit(0);
+		} else if(optionSelected == JOptionPane.NO_OPTION) {
+			return;
+		}
+		
+	}
+	
+	
+	private void notImplemented() {
+		JOptionPane.showMessageDialog(this, I18N.getString("errorNotImplemented"));
 	}
 	
 	/**
@@ -626,6 +638,7 @@ public class App extends JFrame {
 		spinner.setEditor(new JSpinner.NumberEditor(spinner));
 		return spinner;
 	}
+	
 	
 	/**
 	 * ClickHandler class receives various events from the application
@@ -676,6 +689,10 @@ public class App extends JFrame {
 					
 				case "generateJava":
 					exportJavaCode();
+					break;
+					
+				case "preferences":
+					notImplemented();
 					break;
 					
 				case "exit":
