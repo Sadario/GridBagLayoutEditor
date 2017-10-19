@@ -144,6 +144,7 @@ public class TextArea extends BaseComponent {
 
 		label = new JLabel(I18N.getString("specialEditor.checkBox.wrapping"));
 		contentPanel.add(label);
+		if (wrap == true) wrapCheck.setSelected(true);
 		contentPanel.add(wrapCheck);
 		
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);

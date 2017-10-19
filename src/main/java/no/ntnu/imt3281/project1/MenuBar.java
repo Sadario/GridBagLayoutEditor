@@ -13,9 +13,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
+ * Creates the MenuBar for the application.
  * @author sadario
  * @author thomasgg
- * Menubar for the application, with different functionality #TODO
+ * 
  */
 public class MenuBar extends JMenuBar {
 	/**
@@ -112,6 +113,7 @@ public class MenuBar extends JMenuBar {
 	 * @param parent the JMenu-object you want to create a new JMenuItem in
 	 * @param name the name of the new JMenuItem
 	 * @param graphic the name of the file in folder 'graphics' (entire file-name e.g. "New.gif", or "" if no graphic is needed). 
+	 * @param handler The ActionListener handling the events.
 	 * @return JMenuItem-object to add to parent-JMenu.
 	 */	
 	public JMenuItem createJMenuItem(String parent, String name, String graphic, ActionListener handler) {

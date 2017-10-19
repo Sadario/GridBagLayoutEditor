@@ -13,7 +13,7 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * 
+ * The datamodel used for the project.
  * @author thomasgg
  * @author sadario
  */
@@ -106,7 +106,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * @param stringVal String value of the component type
 	 * @param rowIndex Integer value of the component's row index
 	 * @param columnIndex Integer value of the component's column index
-	 * @see javax.swing.table.TableModel#setValueAt(object, int, int)
+	 * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
 	 * @see GBLEDataModel#editComponentAttributes(BaseComponent, String, int)
 	 */
 	@Override
@@ -276,7 +276,7 @@ public class GBLEDataModel extends AbstractTableModel {
 	/**
 	 * 
 	 * 
-	 * @param os
+	 * @param os The outputstream to write the objects to
 	 */
 	public void save(OutputStream os) {
 	 /* REVIEW
@@ -296,7 +296,7 @@ public class GBLEDataModel extends AbstractTableModel {
 
 	/**
 	 * 
-	 * @param is
+	 * @param is The inputstream to read the objects from
 	 */
 	@SuppressWarnings("unchecked")
 	public void load(InputStream is) {

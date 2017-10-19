@@ -11,8 +11,9 @@ import javax.swing.JButton;
 import javax.swing.JToolBar;
 
 /**
+ * Creates the ToolBar for the application
  * @author sadario
- *
+ * @author thomasgg
  */
 public class ToolBar extends JToolBar {
 
@@ -53,30 +54,5 @@ public class ToolBar extends JToolBar {
 		button.setToolTipText(I18N.getString("buttons." + buttonName + ".toolTip"));
 		button.setIcon(icon);
 		this.add(button);
-	}
-
-	/**
-	 * @param orientation
-	 */
-	public ToolBar(int orientation) {
-		super(orientation);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param name
-	 */
-	public ToolBar(String name) {
-		super(name);
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @param name
-	 * @param orientation
-	 */
-	public ToolBar(String name, int orientation) {
-		super(name, orientation);
-		// TODO Auto-generated constructor stub
 	}
 }

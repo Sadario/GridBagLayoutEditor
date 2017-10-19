@@ -169,10 +169,10 @@ public class App extends JFrame {
 		
 		if (comp instanceof TextArea || comp instanceof TextField) {
 			if (comp instanceof TextArea) {
-				windowDimension = new Dimension(320, 125);
+				windowDimension = new Dimension(320, 145);
 				windowTitle = I18N.getString("specialEditor.JTextArea.title");
 			} else if (comp instanceof TextField) {
-				windowDimension = new Dimension(320, 75);
+				windowDimension = new Dimension(320, 95);
 				windowTitle = I18N.getString("specialEditor.JTextField.title");
 			}
 			JDialog frame = new JDialog(this, windowTitle, true); 
@@ -268,7 +268,7 @@ public class App extends JFrame {
 		bar.makeButton("OpenDoc.gif", "open", handler);
 		bar.makeButton("Save.gif", "save", handler);
 		bar.addSeparator();
-		bar.makeButton("ExecuteProject.gif", "generate", handler);
+		bar.makeButton("ExecuteProject.gif", "generateJava", handler);
 		bar.makeButton("SaveJava.gif", "generateJava", handler);
 		bar.addSeparator();
 		bar.makeButton("NewRow.gif", "newRow", handler);
@@ -504,7 +504,9 @@ public class App extends JFrame {
 		className = fileName.split("\\.")[0];
 		
 		exportFilePath  = saveFile.getAbsolutePath();
-		exportFileName = exportFilePath.substring(0, exportFilePath.length() - 4) + ".java";
+		exportFileName = exportFilePath.substring(0, exportFilePath.length() 
+							- (fileName.length())) 
+							+ className + ".java";
 		
 		try {
 			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(exportFileName)));
@@ -574,7 +576,7 @@ public class App extends JFrame {
 	
 	/**
 	 * 
-	 * @param args
+	 * @param args No command-line arguments are used
 	 */
     public static void main( String[] args )
     {
@@ -660,10 +662,11 @@ public class App extends JFrame {
 	 * Creates JSpinner-object with associated label, with correct values for min/max/current.
 	 * Assumes minimum-value is 0.
 	 * 
-	 * {@link http://docs.oracle.com/javase/tutorial/uiswing/examples/components/SpinnerDemoProject/src/components/SpinnerDemo.java}
+	 * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/examples/components/SpinnerDemoProject/src/components/SpinnerDemo.java"></a>
 	 * @param c Container to add the JSpinner to
 	 * @param label Label with the text associated with the spinner
 	 * @param spinnerMax Maximum value for this spinner
+	 * @param currentValue The current value of this parameter for the object, also starting-point for spinner.
 	 * @return JSpinner-object
 	 */
 	public static JSpinner addLabeledSpinner(Container c, String label, int spinnerMax, int currentValue) {
