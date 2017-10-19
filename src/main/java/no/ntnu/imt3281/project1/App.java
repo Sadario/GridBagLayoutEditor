@@ -9,7 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -93,9 +94,26 @@ public class App extends JFrame {
 		add(statusBar, BorderLayout.SOUTH);
 		
 		setSize(800, 400);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setVisible(true);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		
+		this.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e){
+            	int optionSelected = JOptionPane.NO_OPTION;
+        		if(isChanged == true) {
+        			optionSelected = JOptionPane.showConfirmDialog(null, I18N.getString("confirmDialog.unsaved"));
+        		} else {
+        			System.exit(0);
+        		}
+        		
+        		if(optionSelected == JOptionPane.YES_OPTION) {
+        			System.exit(0);
+        		} else {
+        			return;
+        		}
+            }
+        });
+		
+		setVisible(true);
 		setStatusText("New file");
 	}
 
@@ -393,7 +411,6 @@ public class App extends JFrame {
 	private void save() {
 		if(hasDefinedSaveLocation) {
 			try {
-				System.out.println("TESTING: save() running");
 				FileOutputStream fos = new FileOutputStream(saveFile);
 				data.save(fos);
 				fos.close();
@@ -421,7 +438,6 @@ public class App extends JFrame {
 				saveFile = new File(saveFile + ".gbl");
 			}
 			try {
-				System.out.println("TESTING: saveAs() running");
 				FileOutputStream fos = new FileOutputStream(saveFile);
 				data.save(fos);
 				fos.close();
@@ -455,8 +471,6 @@ public class App extends JFrame {
 			
 			if(openFile != null) {
 				try {
-
-					System.out.println("TESTING: load() running");
 					FileInputStream fis = new FileInputStream(openFile);
 					data.load(fis);
 					saveFile = openFile;
