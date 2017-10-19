@@ -369,8 +369,7 @@ public class App extends JFrame {
 			data.moveComponentUp(table.getSelectedRow());
 			table.getSelectionModel().setSelectionInterval(currentRow-1, currentRow-1);
 			isChanged = true;
-											// La til en sjekk, for å unngå
-											// flytting av nederste rad nedover:
+			
 		} else if (direction == DOWN && currentRow != data.getRowCount()-1) {
 			data.moveComponentDown(table.getSelectedRow());
 			table.getSelectionModel().setSelectionInterval(currentRow+1, currentRow+1);
