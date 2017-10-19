@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -47,9 +49,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  */
 public class App extends JFrame {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private static final int UP = -1;
 	private static final int DOWN = 1;
@@ -77,8 +77,6 @@ public class App extends JFrame {
 			GridBagConstraints.SOUTHWEST
 	};
 	
-
-	
 	/**
 	 * Constructor
 	 * 
@@ -98,7 +96,7 @@ public class App extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 		
-		setStatusText("Program initialized");
+		setStatusText("New file");
 	}
 
 	/**
@@ -129,7 +127,6 @@ public class App extends JFrame {
 	 * Gives right-click menu, containing delete- and special value editor-option
 	 * @return Right-click menu
 	 */
-	
 	private JPopupMenu createPopupMenu() {
 		JPopupMenu menu = new JPopupMenu();
 		ActionListener menuListener = new ActionListener() {
@@ -146,6 +143,7 @@ public class App extends JFrame {
 				}
 			}
 		};
+		
 		JMenuItem item;
 		menu.add(item = new JMenuItem(I18N.getString("popupMenu.specialEditor")));
 		item.setActionCommand("getSpecialEditor");
@@ -157,11 +155,15 @@ public class App extends JFrame {
 		item.addActionListener(menuListener);
 		menu.setLabel("LabelTest");
 		menu.setBorder(new BevelBorder(BevelBorder.RAISED));
-		menu.addPopupMenuListener(new PopupListener());
+//		menu.addPopupMenuListener(new PopupListener());
 		table.setComponentPopupMenu(menu);
 		return menu;				
 	}
 	
+	/**
+	 * Provides a special editor for specific components by right clicking a table row 
+	 * containing the component.
+	 */
 	private void getSpecialEditor() {
 		BaseComponent comp = data.components.elementAt(table.getSelectedRow());
 		Dimension windowDimension = null;
@@ -229,7 +231,12 @@ public class App extends JFrame {
 		
 	}
 	
-	
+	/**
+	 * Creates the edit menu and attaches appropriate event handlers.
+	 * 
+	 * @param bar Menu bar object which contains all the menu items.
+	 * @param handler private ClickHandler object which manages the event handlers.
+	 */
 	private void createEditMenu(MenuBar bar, ClickHandler handler) {
 		
 		JMenu editMenu = bar.createJMenu("menuBar.edit");
@@ -286,12 +293,12 @@ public class App extends JFrame {
 		data = new GBLEDataModel();
 		table = new JTable(data);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.getViewport().setBackground(Color.WHITE);		// Ellers ser tabellen stygg ut, om vi fjerner komponenter
+		scrollPane.getViewport().setBackground(Color.WHITE);
 		add(scrollPane);
 		createStatusBar();
 	    makeSpecialColumns(table);
 	    
-	    for (int i = 0; i <= 8; i++) {		// Kortere kode. Behov for å endre bredde på hver enkelt? 
+	    for (int i = 0; i <= 8; i++) {
 	    	table.getColumnModel().getColumn(i).setPreferredWidth(100);
 	    }
 	    // Thomas kommentar: Tanken var forskjellige bredder
@@ -322,8 +329,6 @@ public class App extends JFrame {
 		createIconComboBox(anchorConstraints, 7);
 		table.getColumnModel().getColumn(7).setCellRenderer(new AnchorFillRenderer());
 		table.getColumnModel().getColumn(8).setCellRenderer(new AnchorFillRenderer());
-
-
 		createIconComboBox(fillConstraints, 8);
 	}
 	
@@ -346,7 +351,7 @@ public class App extends JFrame {
 	private void newFile() {
 		data.clear();
 		hasDefinedSaveLocation = false;
-		isChanged = true;
+		isChanged = false;
 	}
 	
 	/**
@@ -395,12 +400,13 @@ public class App extends JFrame {
 	private void save() {
 		if(hasDefinedSaveLocation) {
 			try {
+				System.out.println("TESTING: save() running");
 				FileOutputStream fos = new FileOutputStream(saveFile);
 				data.save(fos);
 				fos.close();
 				isChanged = false;
 			} catch (IOException e) {
-				
+				System.err.println("Failed to save file: " + e);
 			}
 		} else {
 			saveAs();
@@ -421,14 +427,18 @@ public class App extends JFrame {
 				saveFile = new File(saveFile + ".gbl");
 			}
 			try {
+				System.out.println("TESTING: saveAs() running");
 				FileOutputStream fos = new FileOutputStream(saveFile);
 				data.save(fos);
 				fos.close();
 				hasDefinedSaveLocation = true;
 				isChanged = false;
+				setStatusText(saveFile.getAbsolutePath());
 			} catch (IOException e) {
-			
+			    System.err.println("Failed to save file: " + e);
 			}
+		} else {
+			System.err.println("SaveAs() canceled");
 		}
 	}
 	
@@ -438,23 +448,34 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void load() {
+		
+		int optionSelected = JOptionPane.YES_OPTION;
 		if(isChanged == true) {
-			save();
+			optionSelected = JOptionPane.showConfirmDialog(this, I18N.getString("confirmDialog.unsaved"));
 		}
 		
-		File openFile = getFileChooser("load");
-		
-		if(openFile != null) {
-			try {
-				FileInputStream fis = new FileInputStream(openFile);
-				data.load(fis);
-				hasDefinedSaveLocation = true;
-				isChanged = false;
-			} catch (FileNotFoundException e) {
-				
-			}
+		if(optionSelected == JOptionPane.YES_OPTION) {
+			File openFile = getFileChooser("load");
 			
+			if(openFile != null) {
+				try {
+
+					System.out.println("TESTING: load() running");
+					FileInputStream fis = new FileInputStream(openFile);
+					data.load(fis);
+					saveFile = openFile;
+					hasDefinedSaveLocation = true;
+					isChanged = false;
+					setStatusText(saveFile.getAbsolutePath());
+				} catch (FileNotFoundException e) {
+					System.err.println("Failed to open file: " + e);
+				}
+			} else {
+				System.err.println("load() canceled");
+			}
 		}
+		
+
 	}
 	
 	/**
@@ -488,49 +509,39 @@ public class App extends JFrame {
 	 * 
 	 */
 	private void exportJavaCode() {
-		
-		if(isChanged || saveFile == null) {                          // Uses the file name on disk
+		if(isChanged || !hasDefinedSaveLocation) {                          // Uses the file name on disk
 			save();
 		}
-
-		
-		String temp[];
-		String fileName, className, exportFilePath, exportFileName;
-		
-		temp      = saveFile.getAbsolutePath().split("((/)|(\\\\))");
-		
-		fileName  = temp[temp.length-1].substring(0, 1).toUpperCase() 
-				  + temp[temp.length-1].substring(1).toLowerCase();
-		className = fileName.split("\\.")[0];
-		
-		exportFilePath  = saveFile.getAbsolutePath();
-		exportFileName = exportFilePath.substring(0, exportFilePath.length() 
-							- (fileName.length())) 
-							+ className + ".java";
-		
-		try {
-			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(exportFileName)));
-			out.write(getJavaExportString(className).toString());
-			out.close();
-		} catch (IOException e) {
+		if(hasDefinedSaveLocation) {
+			String temp[];
+			String fileName, className, exportFilePath, exportFileName;
 			
+			temp      = saveFile.getAbsolutePath().split("((/)|(\\\\))");
+			
+			fileName  = temp[temp.length-1].substring(0, 1).toUpperCase() 
+					  + temp[temp.length-1].substring(1).toLowerCase();
+			className = fileName.split("\\.")[0];
+			
+			exportFilePath  = saveFile.getAbsolutePath();
+			exportFileName = exportFilePath.substring(0, exportFilePath.length() 
+								- (fileName.length())) 
+								+ className + ".java";
+			
+			try {
+				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(exportFileName)));
+				out.write(getJavaExportString(className).toString());
+				out.close();
+			} catch (IOException e) {
+				System.err.println("Failed to save file: " + e);
+			}
+		} else {
+			System.err.println("exportJavaCode() canceled, user did not save file");
 		}
 		
 	}
 	
 	/**
-	 * Exits the program, asks to save if changes are made.
-	 * 
-	 */
-	private void exit() {
-		if(isChanged) {
-			save();
-		}
-		System.exit(0);
-	}
-	
-	/**
-	 * Builds the Java code constructed by the editor which9ol., is to be
+	 * Builds the Java code constructed by the editor which is to be
 	 * exported to a .java file.
 	 * 
 	 * @param className String value of the file name which will be used as the class name.
@@ -558,34 +569,72 @@ public class App extends JFrame {
 		javaCode.append("\t\t" + className + " temp = new " + className + "();\n");
 		javaCode.append("\t\tframe.add(temp, BorderLayout.CENTER);\n");
 		javaCode.append("\t}\n}\n");
+		
 		return javaCode.toString();
 	}
 
+	/**
+	 * Exits the program, asks to save if changes are made.
+	 * 
+	 */
+	private void exit() {
+		if(isChanged) {
+			save();
+		}
+		System.exit(0);
+	}
 	
+	/**
+	 * Creates status bar with the purpose of showing relevant status messages.
+	 */
 	private static void createStatusBar() {
 		statusBar = new JTextField();
 		statusBar.setEditable(false);
 		statusBar.setHighlighter(null);
 	}
 	
+	/**
+	 * Provides the status bar with the given status.
+	 * 
+	 * @param newText String value of the status.
+	 */
 	private static void setStatusText(String newText) {
 		statusBar.setText(newText);
 	}
-	
-	
+			
+	/**
+	 * Creates JSpinner-object with associated label, with correct values for min/max/current.
+	 * Assumes minimum-value is 0.
+	 * 
+	 * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/examples/components/SpinnerDemoProject/src/components/SpinnerDemo.java"></a>
+	 * @param c Container to add the JSpinner to
+	 * @param label Label with the text associated with the spinner
+	 * @param spinnerMax Maximum value for this spinner
+	 * @param currentValue The current value of this parameter for the object, also starting-point for spinner.
+	 * @return JSpinner-object
+	 */
+	public static JSpinner addLabeledSpinner(Container c, String label, int spinnerMax, int currentValue) {
+		final int SPINNERMIN = 0;
+		
+		JLabel l = new JLabel(label);
+		c.add(l);
+		
+		JSpinner spinner = new JSpinner(new SpinnerNumberModel(currentValue, SPINNERMIN, spinnerMax, 1));
+		l.setLabelFor(spinner);
+		c.add(spinner);
+		
+		spinner.setEditor(new JSpinner.NumberEditor(spinner));
+		return spinner;
+	}
 	
 	/**
+	 * ClickHandler class receives various events from the application
+	 * and handles them accordingly.
 	 * 
-	 * @param args No command-line arguments are used
+	 * @author thomasgg
+	 * @author saradio
+	 *
 	 */
-    public static void main( String[] args )
-    {
-    	if (args.length > 0) {
-    		I18N.setLanguage(args[0]);
-    	}
-    	App window = new App();
-    }   
-	
     private class ClickHandler implements ActionListener {
 		
     	@Override
@@ -633,15 +682,34 @@ public class App extends JFrame {
 					exit();
 					break;
 					
-					
 				default:
-					System.out.println(cmd);
+					System.err.println("Not implemented: " + cmd);
 					break;
 			}
 		}
 	}
+	
+	/**
+	 * 
+	 * @param args No command-line arguments are used
+	 */
+    public static void main( String[] args ) {
+    	
+    	if (args.length > 0) {
+    		I18N.setLanguage(args[0]);
+    	} else {
+    		I18N.setLanguage("");
+    	}
+    	
+    	@SuppressWarnings("unused")
+		App window = new App();
+    }
     
 	
+
+    
+    
+/*	
 	private class PopupListener implements PopupMenuListener {
 
 		@Override
@@ -660,31 +728,8 @@ public class App extends JFrame {
 		}
 		
 	}
+*/
 
-	/**
-	 * Creates JSpinner-object with associated label, with correct values for min/max/current.
-	 * Assumes minimum-value is 0.
-	 * 
-	 * @see <a href="http://docs.oracle.com/javase/tutorial/uiswing/examples/components/SpinnerDemoProject/src/components/SpinnerDemo.java"></a>
-	 * @param c Container to add the JSpinner to
-	 * @param label Label with the text associated with the spinner
-	 * @param spinnerMax Maximum value for this spinner
-	 * @param currentValue The current value of this parameter for the object, also starting-point for spinner.
-	 * @return JSpinner-object
-	 */
-	public static JSpinner addLabeledSpinner(Container c, String label, int spinnerMax, int currentValue) {
-		final int SPINNERMIN = 0;
-		
-		JLabel l = new JLabel(label);
-		c.add(l);
-		
-		JSpinner spinner = new JSpinner(new SpinnerNumberModel(currentValue, SPINNERMIN, spinnerMax, 1));
-		l.setLabelFor(spinner);
-		c.add(spinner);
-		
-		spinner.setEditor(new JSpinner.NumberEditor(spinner));
-		return spinner;
-	}
 }
 
 

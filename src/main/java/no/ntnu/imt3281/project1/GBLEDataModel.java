@@ -1,6 +1,3 @@
-/**
- * 
- */
 package no.ntnu.imt3281.project1;
 
 import java.io.IOException;
@@ -13,22 +10,16 @@ import java.util.Vector;
 import javax.swing.table.AbstractTableModel;
 
 /**
- * The datamodel used for the project.
+ * The data model used for the project.
+ * 
  * @author thomasgg
  * @author sadario
  */
 public class GBLEDataModel extends AbstractTableModel {
 
-	/**
-	 * 		DATA:
-	 */
 	private static final long serialVersionUID = 1L;
 	public Vector<BaseComponent> components;
 	public String[] columnNames;
-	
-	/**
-	 * 		INHERITED METHODS:
-	 */
 
 	/**
 	 * The no-argument GBLEDataModel constructor
@@ -80,7 +71,6 @@ public class GBLEDataModel extends AbstractTableModel {
 	 * @return String value of a Component's string attributes
 	 * @return Integer value of a Component's integer attributes
 	 */
-	
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		BaseComponent temp = components.get(rowIndex);
@@ -123,7 +113,6 @@ public class GBLEDataModel extends AbstractTableModel {
 		    case 7: temp.setAnchor(Integer.parseInt(stringVal.toString()));        break;
 		    case 8: temp.setFill(Integer.parseInt(stringVal.toString()));          break;
 		    default: break;
-		    
 	    }
 	}
 	
@@ -138,10 +127,10 @@ public class GBLEDataModel extends AbstractTableModel {
 	 */
 	private void editComponentAttributes(BaseComponent comp, String val, int row) {
 		switch(val) {
-		case "JTextField": components.set(row, new TextField(comp)); break;
-		case "JTextArea":  components.set(row, new TextArea(comp));  break;
-		case "JLabel":     components.set(row, new Label(comp));     break;
-		case "JButton":    components.set(row, new Button(comp));    break;
+			case "JTextField": components.set(row, new TextField(comp)); break;
+			case "JTextArea":  components.set(row, new TextArea(comp));  break;
+			case "JLabel":     components.set(row, new Label(comp));     break;
+			case "JButton":    components.set(row, new Button(comp));    break;
 		}
 		
 	}
@@ -165,11 +154,6 @@ public class GBLEDataModel extends AbstractTableModel {
 	public int getNumColumns() {
 		return columnNames.length;
 	}
-	
-	/**
-	 * 		METHODS:
-	 */
-
 	
 	/**
 	 * Returns the definitions to all objects in the Vector
@@ -208,8 +192,8 @@ public class GBLEDataModel extends AbstractTableModel {
 	 */
 	public void addComponent(BaseComponent component) {
 		components.add(component);
-		fireTableRowsInserted(0, components.size());	// Må oppdatere fra første til siste komponent
-	}													// for at fjerning, deretter innlegging skal oppføre seg normalt.
+		fireTableRowsInserted(0, components.size());
+	}
 
 	/**
 	 * Removes the component at the given position.
@@ -228,11 +212,6 @@ public class GBLEDataModel extends AbstractTableModel {
 	 */
 	public void removeComponent(BaseComponent component) {
 		components.removeElement(component);
-		// REVIEW:
-		// remove(Object o) - "removes first occurence of specified element"
-		// removeElement(Object o) - "Removes the first (lowest-indexed) occurence of specified el"
-		// Hvem av dem?
-		
 	}
 
 	/**
@@ -275,45 +254,32 @@ public class GBLEDataModel extends AbstractTableModel {
 	
 	/**
 	 * 
-	 * 
-	 * @param os The outputstream to write the objects to
+	 * @param os The output stream to write the objects to
 	 */
 	public void save(OutputStream os) {
-	 /* REVIEW
-	  * 
-	  * Dobbeltsjekk at filnavn/destinasjon er definert i argumentet
-	  * Exception må dirigeres et annet sted.
-     */
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(os);  // Wrap the stream object, making it serialized
-			out.writeObject(components);                          // Write the object to the out stream
+			ObjectOutputStream out = new ObjectOutputStream(os); 
+			out.writeObject(components);                          
 		} catch(IOException e) {
-			System.err.println("A file writing error occured. " +
-		        "Check your write permissions and remaining disk space.");
+			System.err.println("A file writing error occured: " + e);
 		}
 		
 	}
 
 	/**
 	 * 
-	 * @param is The inputstream to read the objects from
+	 * @param is The input stream to read the objects from
 	 */
 	@SuppressWarnings("unchecked")
 	public void load(InputStream is) {
-		/**
-		 * REVIEW
-		 * Helt utrolig at testen gikk igjennom.
-		 * Vi må få en bedre forståelse for save(), load() og 
-		 * fikse de.
-		 */
 		try {
 			ObjectInputStream in = new ObjectInputStream(is);
 			components = (Vector<BaseComponent>) in.readObject();
 			fireTableDataChanged();
 		} catch(IOException e) {
-			System.err.println("err");
-		} catch(ClassNotFoundException temp) { // Vet ikke hvorfor in.readObject(); krevde denne
-			System.err.println(temp.getMessage());
+			System.err.println("Could not load file: " + e.getMessage());
+		} catch(ClassNotFoundException e) {
+			System.err.println("Class of serialized object not found: " + e.getMessage());
 		}
 	}
 

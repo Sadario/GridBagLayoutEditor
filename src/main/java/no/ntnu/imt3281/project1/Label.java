@@ -1,6 +1,3 @@
-/**
- * 
- */
 package no.ntnu.imt3281.project1;
 
 /**
@@ -11,16 +8,9 @@ package no.ntnu.imt3281.project1;
  * @author sadario
  */
 public class Label extends BaseComponent {
-
-	/**
-	 * 		DATA:
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 		METHODS:
-	 */
-	
 	/**
 	 * No argument constructor calls BaseComponent's constructor
 	 * 
@@ -40,8 +30,7 @@ public class Label extends BaseComponent {
 	public Label(BaseComponent component) {
 		super(component);
 	}
-	
-	
+
 	/**
 	 * Returns a String object definition of the JLabel object
 	 * 

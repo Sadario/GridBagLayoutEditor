@@ -1,16 +1,12 @@
-/**
- * 
- */
 package no.ntnu.imt3281.project1;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
-import java.awt.event.ActionListener;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
+import java.awt.event.ActionListener;
 
 /**
  * Creates the MenuBar for the application.
@@ -19,77 +15,16 @@ import javax.swing.ImageIcon;
  * 
  */
 public class MenuBar extends JMenuBar {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Creates the MenuBar at the top of the application.
-	 * #TODO implement listeners
+	 * The constructor does not perform any specific tasks.
 	 * 
 	 */
-	public MenuBar() {
-		// JMenu fileMenu = createJMenu("menuBar.file");
-/*		JMenuItem newFileMenuItem = createJMenuItem("file", "new", "New.gif");
-		JMenuItem openFileMenuItem = createJMenuItem("file", "open", "OpenDoc.gif");
-		JMenuItem saveMenuItem = createJMenuItem("file", "save", "Save.gif");
-		JMenuItem saveAsMenuItem = createJMenuItem("file", "saveAs", "Save.gif");
-		JMenuItem previewMenuItem = createJMenuItem("file", "preview", "");
-		JMenuItem generateMenuItem = createJMenuItem("file", "generate", "SaveJava.gif");
-		JMenuItem exitMenuItem = createJMenuItem("file", "exit", "");
- */
-		
-	/*	this.add(fileMenu);
-		fileMenu.add(newFileMenuItem);
-		fileMenu.add(openFileMenuItem);
-		fileMenu.add(saveMenuItem);
-		fileMenu.add(saveAsMenuItem);
-		fileMenu.addSeparator();
-		fileMenu.add(previewMenuItem);
-		fileMenu.add(generateMenuItem);
-		fileMenu.addSeparator();
-		fileMenu.add(exitMenuItem);
-     */
-		/*
-		 * 		EDIT-MENU
-		 */
-		
-   /*
-		JMenu editMenu = createJMenu("menuBar.edit");
-		JMenuItem newRowMenuItem = createJMenuItem("edit", "newRow", "NewRow.gif");
-		JMenuItem preferencesMenuItem = createJMenuItem("edit", "preferences", "");
-		
-		newRowMenuItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		
-		this.add(editMenu);
-		editMenu.add(newRowMenuItem);
-		editMenu.addSeparator();
-		editMenu.add(preferencesMenuItem);
-	*/
-		/*
-		 * 		HELP-MENU
-		 */
-	/*	JMenu helpMenu = createJMenu("menuBar.help");
-		JMenuItem helpMenuItem = createJMenuItem("help", "help", "Help.gif");
-		JMenuItem aboutMenuItem = createJMenuItem("help", "about", "");
-		
-		this.add(helpMenu);
-		helpMenu.add(helpMenuItem);
-		helpMenu.addSeparator();
-		helpMenu.add(aboutMenuItem);
-		*/
-	}
+	public MenuBar() {}
+	
 	/**
-	 * This function is private, so documentation is unnecessary, but I chose to document it...
 	 * 
 	 * Give function the name (matching *.properties-files) of the new JMenu you want to create.
 	 * *.properties should contain "menuBar." + 'parameter of this function'
@@ -131,6 +66,4 @@ public class MenuBar extends JMenuBar {
 		object.addActionListener(handler);
 		return object;
 	}
-	
-
 }

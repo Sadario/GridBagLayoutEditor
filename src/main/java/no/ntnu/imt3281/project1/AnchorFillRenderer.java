@@ -16,15 +16,16 @@ import javax.swing.table.TableCellRenderer;
  * @author sadario
  * @author thomasgg
  */
+public class AnchorFillRenderer extends JLabel implements TableCellRenderer {	
 
-public class AnchorFillRenderer extends JLabel implements TableCellRenderer {
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private transient Map<Integer, Icon> icons;
 	
+	/**
+	 * The constructor connects the string path to the images with the
+	 * integer constants representing the GridBagConstraints.
+	 * 
+	 */
 	public AnchorFillRenderer() {
 		setOpaque(true);
 		
@@ -45,10 +46,10 @@ public class AnchorFillRenderer extends JLabel implements TableCellRenderer {
 	}
 	
 	/**
-	 * Overridden TableCellRenderer-function.
+	 * Overridden TableCellRenderer function.
+	 * 
 	 * @return Component Icon to populate cell
 	 */
-	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, 
 			                                       boolean isSelected, boolean hasFocus,
@@ -58,10 +59,7 @@ public class AnchorFillRenderer extends JLabel implements TableCellRenderer {
 				this.setIcon(icons.get(value));
 			}
 		}
+		
 		return this;
 	}
-	
-	
-
-	
 }

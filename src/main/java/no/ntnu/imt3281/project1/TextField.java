@@ -24,8 +24,6 @@ public class TextField extends BaseComponent {
 	
 	private static final long serialVersionUID = 1L;
 	private int width;
-	
-	// CONSTANTS
 	private static final int SPINNERMAX = 500;
 
 	/**
@@ -72,7 +70,6 @@ public class TextField extends BaseComponent {
 	public String getDefinition() {
 		return "\tJTextField " + getVariableName() + " = new JTextField(\"" + getText() + "\", " + getWidth() + ");\n";
 	}
-	
 	
 	/**
 	 * Creates the panel, to populate a frame, with option to edit special values.

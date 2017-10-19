@@ -4,8 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Temp kommentar: Gjorde klassen statisk slik at konstruktoren til App()
- * kan bruke klassen for en dynamisk vindustittel.
+ * Internationalization class providing language specific strings.
  * 
  * @author thomasgg
  * @author sadario
@@ -15,6 +14,9 @@ public class I18N {
 	
 	private static Locale locale;
 	private static ResourceBundle bundle;
+	
+	private I18N() {	
+	}
 	
 	/**
 	 * 
@@ -40,7 +42,5 @@ public class I18N {
 			locale = Locale.getDefault();
 			bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
 		}
-		
 	}
-
 }

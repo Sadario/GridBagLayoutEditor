@@ -8,6 +8,7 @@ package no.ntnu.imt3281.project1;
  * @author sadario
  */
 public class Button extends BaseComponent {
+	
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -38,7 +39,4 @@ public class Button extends BaseComponent {
 	public String getDefinition() {
 		return "\tJButton " + getVariableName() + " = new JButton(\"" + getText() + "\");\n";
 	}
-
-
-
 }

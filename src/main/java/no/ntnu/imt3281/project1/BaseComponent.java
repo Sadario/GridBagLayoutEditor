@@ -1,4 +1,5 @@
 package no.ntnu.imt3281.project1;
+
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.io.Serializable;
@@ -172,7 +173,7 @@ public class BaseComponent implements Serializable {
 	}
 	
 	/**
-	 * Sets the number of coloumns which the component occupies.
+	 * Sets the number of columns which the component occupies.
 	 * 
 	 * @see java.awt.GridBagConstraints
 	 * @param cols number of columns which the component will occupy

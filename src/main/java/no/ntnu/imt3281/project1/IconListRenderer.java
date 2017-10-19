@@ -1,6 +1,3 @@
-/**
- * 
- */
 package no.ntnu.imt3281.project1;
 
 import java.awt.Component;
@@ -19,10 +16,7 @@ import javax.swing.JList;
  * @author thomasgg
  */
 public class IconListRenderer extends DefaultListCellRenderer {
-	
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private HashMap<Integer, Icon> icons;
 
@@ -46,24 +40,20 @@ public class IconListRenderer extends DefaultListCellRenderer {
 		icons.put(GridBagConstraints.BOTH, new ImageIcon(getClass().getResource("graphics/skaler_begge.png")));
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
 	 */
 	@Override
 	public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index,
 													boolean isSelected, boolean cellHasFocus) {
 
-		
 		JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-		
+
 		// Get icon to use for the list item value
-		
 		Icon icon = icons.get(value);
 		
 		// Set icon to display for value
-		
 		label.setIcon(icon);
 		return label;
 	}
-
 }

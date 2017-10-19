@@ -30,12 +30,8 @@ public class TextArea extends BaseComponent {
 	private int textRows;
 	private int textCols;
 	private boolean wrap;
-	
-	// CONSTANTS
-	
 	private final int SPINNERMAXROWS = 50;
 	private final int SPINNERMAXCOLS = 150;
-
 
 	/**
 	 * No argument constructor calls BaseComponent's constructor
