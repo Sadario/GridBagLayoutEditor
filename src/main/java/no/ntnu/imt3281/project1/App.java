@@ -288,7 +288,7 @@ public class App extends JFrame {
 		bar.makeButton("OpenDoc.gif", "open", handler);
 		bar.makeButton("Save.gif", "save", handler);
 		bar.addSeparator();
-		bar.makeButton("ExecuteProject.gif", "generateJava", handler);
+		bar.makeButton("ExecuteProject.gif", "generate", handler);
 		bar.makeButton("SaveJava.gif", "generateJava", handler);
 		bar.addSeparator();
 		bar.makeButton("NewRow.gif", "newRow", handler);
@@ -700,6 +700,7 @@ public class App extends JFrame {
 					break;
 					
 				case "preferences":
+				case "generate":
 					notImplemented();
 					break;
 					
