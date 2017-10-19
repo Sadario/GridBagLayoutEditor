@@ -391,14 +391,6 @@ public class App extends JFrame {
 	}
 	
 	/**
-	 * Shows a centered message dialog.
-	 * 
-	 */
-	private void showHelpDialog() {
-		JOptionPane.showMessageDialog(this, "Not yet implemented");
-	}
-	
-	/**
 	 * Saves the current GridBagLayout file to the directory where the
 	 * application lies.
 	 * 
@@ -679,10 +671,6 @@ public class App extends JFrame {
 					moveRow(DOWN);
 					break;
 					
-				case "help":
-					showHelpDialog();
-					break;
-					
 				case "save":
 					save();
 					break;
@@ -699,6 +687,9 @@ public class App extends JFrame {
 					exportJavaCode();
 					break;
 					
+				// Unimplemented functions fall through to same function
+				case "help": 
+				case "about":
 				case "preferences":
 				case "generate":
 					notImplemented();
