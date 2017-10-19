@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" author="true" classpath="target/test-classes:/home/sadario/.m2/repository/junit/junit/4.12/junit-4.12.jar:/home/sadario/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar" destdir="doc" doctitle="GridBagLayoutEditor-documentation" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="testing" source="1.8" sourcefiles="src/main/java/no/ntnu/imt3281/project1/TextField.java,src/main/java/no/ntnu/imt3281/project1/Button.java,src/main/java/no/ntnu/imt3281/project1/App.java,src/main/java/no/ntnu/imt3281/project1/GBLEDataModel.java,src/main/java/no/ntnu/imt3281/project1/I18N.java,src/main/java/no/ntnu/imt3281/project1/AnchorFillRenderer.java,src/main/java/no/ntnu/imt3281/project1/package-info.java,src/main/java/no/ntnu/imt3281/project1/IconListRenderer.java,src/main/java/no/ntnu/imt3281/project1/Label.java,src/main/java/no/ntnu/imt3281/project1/ToolBar.java,src/main/java/no/ntnu/imt3281/project1/TextArea.java,src/main/java/no/ntnu/imt3281/project1/BaseComponent.java,src/main/java/no/ntnu/imt3281/project1/MenuBar.java" sourcepath="src/main/java:src/test/java" splitindex="true" use="true" version="true">
+            <link href="https://docs.oracle.com/javase/8/docs/api/"/>
+        </javadoc>
+    </target>
+</project>
