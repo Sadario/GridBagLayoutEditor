@@ -580,6 +580,9 @@ public class App extends JFrame {
 	 */
     public static void main( String[] args )
     {
+    	if (args.length > 0) {
+    		I18N.setLanguage(args[0]);
+    	}
     	App window = new App();
     }   
 	

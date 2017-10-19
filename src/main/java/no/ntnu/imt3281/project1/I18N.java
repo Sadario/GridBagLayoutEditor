@@ -13,9 +13,8 @@ import java.util.ResourceBundle;
  */
 public class I18N {
 	
-	private static Locale locale = Locale.ENGLISH; // Uncomment for English language (during development)
-	//private static Locale locale = Locale.getDefault(); // Uncomment for Norwegian language (during development)
-	private static ResourceBundle bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
+	private static Locale locale;
+	private static ResourceBundle bundle;
 	
 	/**
 	 * 
@@ -24,6 +23,24 @@ public class I18N {
 	 */
 	public static String getString(String key) {
 		return I18N.bundle.getString(key);
+	}
+
+	/**
+	 * Change the language of the application
+	 * @param lang The language to use. Currently only supports "en" and "no"
+	 */
+	public static void setLanguage(String lang) {
+		if (lang.equals("en")) {
+			locale = Locale.ENGLISH;
+			bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
+		} else if (lang.equals("no")) {
+			locale = Locale.forLanguageTag("no");
+			bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
+		} else {
+			locale = Locale.getDefault();
+			bundle = ResourceBundle.getBundle("no.ntnu.imt3281.project1.AppResourcesBundle", locale);
+		}
+		
 	}
 
 }
