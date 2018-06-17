@@ -1,5 +1,6 @@
 # Authors
-Sadario & Thomasgg
+Sadario & Thomasgg.
+
 Original project description by Øyvind Kolloen
 
 # Description of the project
